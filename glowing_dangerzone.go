@@ -12,9 +12,10 @@ func main() {
 
 	cmd := os.Args[1]
 	var err error
-	if cmd == "create" {
+	if cmd == "new" {
 		err = createBlogLayout()
 	}
+
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
