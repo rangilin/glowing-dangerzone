@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"path/filepath"
 )
 
 func main() {
@@ -12,24 +11,10 @@ func main() {
 	}
 
 	cmd := os.Args[1]
+	var err error
 	if cmd == "create" {
-		createBlogLayout()
+		err = createBlogLayout()
 	}
-}
-
-func createBlogLayout() {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
-	mkdir(dir + "/_markdowns")
-	mkdir(dir + "/_engine")
-}
-
-func mkdir(dir string) {
-	err := os.Mkdir(dir, os.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
