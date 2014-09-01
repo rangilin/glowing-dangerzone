@@ -14,6 +14,8 @@ func main() {
 	var err error
 	if cmd == "new" {
 		err = createBlogLayout()
+	} else if cmd == "build" {
+		err = buildBlog()
 	}
 
 	if err != nil {
