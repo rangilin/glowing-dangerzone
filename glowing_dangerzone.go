@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func main() {
@@ -10,16 +11,31 @@ func main() {
 		return
 	}
 
-	cmd := os.Args[1]
+	var dir string
 	var err error
+	dir, err = getCurrentDir()
+	if err != nil {
+		logErrorAndShutdown(err)
+	}
+
+	cmd := os.Args[1]
 	if cmd == "new" {
-		err = createBlogLayout()
+		err = createBlogLayout(dir)
 	} else if cmd == "build" {
 		err = buildBlog()
 	}
 
 	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
+		logErrorAndShutdown(err)
 	}
+}
+
+func getCurrentDir() (dir string, err error) {
+	dir, err = filepath.Abs(filepath.Dir(os.Args[0]))
+	return
+}
+
+func logErrorAndShutdown(err error) {
+	log.Fatal(err)
+	os.Exit(1)
 }

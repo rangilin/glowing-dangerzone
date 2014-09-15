@@ -22,3 +22,11 @@ func fakeExecutionPath(t *testing.T) {
 	}
 	os.Args[0] = filepath.Join(path, filepath.Base(os.Args[0]))
 }
+
+func createTmpFolder(t *testing.T) string {
+	dir, err := ioutil.TempDir("", "glowing_dangerzone_test_")
+	if err != nil {
+		t.Fatalf("Unable to create temp dir: %s, error: %s", dir, err)
+	}
+	return dir
+}
