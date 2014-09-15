@@ -22,7 +22,7 @@ func main() {
 	if cmd == "new" {
 		err = createBlogLayout(dir)
 	} else if cmd == "build" {
-		err = buildBlog()
+		err = buildBlog(dir)
 	}
 
 	if err != nil {
