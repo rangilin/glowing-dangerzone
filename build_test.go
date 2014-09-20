@@ -8,7 +8,7 @@ import (
 func TestBuildWillCreateBlogFolder(t *testing.T) {
 	dir := createTmpFolder(t)
 
-	buildBlog(dir)
+	BlogBuilder{dir + "/blog"}.Build()
 
 	assertFilePathExist(t, dir+"/blog")
 }
@@ -18,7 +18,7 @@ func TestBlogFolderWillBeDeletedBeforeBuild(t *testing.T) {
 	os.Mkdir(dir+"/blog", os.ModePerm)
 	os.Create(dir + "/blog/delete_me")
 
-	buildBlog(dir)
+	BlogBuilder{dir + "/blog"}.Build()
 
 	if _, err := os.Stat(dir + "/blog/delete_me"); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
@@ -28,7 +28,7 @@ func TestBlogFolderWillBeDeletedBeforeBuild(t *testing.T) {
 func TestBuildBlogWillGenerateIndexPage(t *testing.T) {
 	dir := createTmpFolder(t)
 
-	buildBlog(dir)
+	BlogBuilder{dir + "/blog"}.Build()
 
 	assertFilePathExist(t, dir+"/blog/index.html")
 }
