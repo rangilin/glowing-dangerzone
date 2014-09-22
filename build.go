@@ -5,10 +5,13 @@ import (
 	"os"
 )
 
+// BlogBuilder build the blog and output the result to specified directory.
 type BlogBuilder struct {
-	dir string // directory to put generated files
+	// directory to put generated files
+	dir string
 }
 
+// Build the blog
 func (b BlogBuilder) Build() error {
 	showMessage("Preparing...")
 
