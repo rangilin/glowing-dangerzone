@@ -8,13 +8,15 @@ import (
 
 func TestPostParserParseVariable(t *testing.T) {
 	file := withPostFileLikeThis(`---
-key: value
+key1: value1
+key2: value2
 ---
 `)
 
-	post := new(GithubPostParser).Parse(file)
+	post := new(PostParser).Parse(file)
 
-	assertPostHaveVariable(t, post, "key", "value")
+	assertPostHaveVariable(t, post, "key1", "value1")
+	assertPostHaveVariable(t, post, "key2", "value2")
 }
 
 func withPostFileLikeThis(content string) os.File {
