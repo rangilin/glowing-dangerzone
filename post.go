@@ -10,7 +10,7 @@ import (
 type PostParser struct {
 }
 
-// Parse specified file into post
+// Parse parse specified file into post
 func (pp PostParser) Parse(f os.File) Post {
 	defer f.Close()
 
@@ -34,7 +34,8 @@ func (pp PostParser) Parse(f os.File) Post {
 				value := strings.TrimSpace(pair[1])
 				post.variables[key] = value
 			}
-
+		} else {
+			post.content += (line + "\n")
 		}
 	}
 	return *post
@@ -43,6 +44,7 @@ func (pp PostParser) Parse(f os.File) Post {
 // Post represented a post in blog
 type Post struct {
 	variables map[string]string
+	content   string
 }
 
 func NewPost() *Post {
