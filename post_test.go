@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -13,7 +14,7 @@ key2: value2
 ---
 `)
 
-	post := new(PostParser).Parse(file)
+	post := newTestPostParser().Parse(file)
 
 	assertPostHaveVariable(t, post, "key1", "value1")
 	assertPostHaveVariable(t, post, "key2", "value2")
@@ -22,11 +23,19 @@ key2: value2
 func TestParseContent(t *testing.T) {
 	file := withPostFileLikeThis(`---
 ---
-test
-`)
-	post := new(PostParser).Parse(file)
+test`)
+	post := newTestPostParser().Parse(file)
 
 	assertPostContent(t, post, "test\n")
+}
+
+func TestParseHtmlContent(t *testing.T) {
+	file := withPostFileLikeThis(`---
+---
+test`)
+	post := newTestPostParser().Parse(file)
+
+	assertPostHtmlContent(t, post, "<html>test\n</html>")
 }
 
 func withPostFileLikeThis(content string) os.File {
@@ -46,4 +55,26 @@ func assertPostContent(t *testing.T, post Post, expected string) {
 	if post.content != expected {
 		t.Fatalf("Expect post content is %q, but got %q", expected, post.content)
 	}
+}
+
+func assertPostHtmlContent(t *testing.T, post Post, expected string) {
+	if post.htmlContent != expected {
+		t.Fatalf("Expect post html content is %q, but got %q", expected, post.htmlContent)
+	}
+}
+
+func newTestPostParser() PostParser {
+	return PostParser{
+		new(TestMarkdownConverter),
+	}
+}
+
+// TestMarkdownConverter is a markdown converter that simply put markdown inside
+// <html></html> tag, we use this to test without calling Github API
+type TestMarkdownConverter struct {
+}
+
+// Convert simply return specified markdown.
+func (tmdc TestMarkdownConverter) Convert(markdown string) string {
+	return fmt.Sprintf("<html>%s</html>", markdown)
 }
