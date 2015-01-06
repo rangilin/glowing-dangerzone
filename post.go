@@ -15,12 +15,12 @@ type PostParser struct {
 // Parse parse specified file into post
 func (pp PostParser) Parse(f os.File) Post {
 	post := NewPost()
-	post.variables, post.content = parseLineByLine(f)
+	post.variables, post.content = pp.parseLineByLine(f)
 	post.htmlContent = pp.converter.Convert(post.content)
 	return *post
 }
 
-func parseLineByLine(f os.File) (variables map[string]string, content string) {
+func (pp PostParser) parseLineByLine(f os.File) (variables map[string]string, content string) {
 	variables = make(map[string]string)
 	content = ""
 
@@ -39,7 +39,7 @@ func parseLineByLine(f os.File) (variables map[string]string, content string) {
 		}
 
 		if isInVariablesBlock {
-			if key, value, err := parseVariable(line); err == nil {
+			if key, value, err := pp.parseVariable(line); err == nil {
 				variables[key] = value
 			}
 		} else {
@@ -50,7 +50,7 @@ func parseLineByLine(f os.File) (variables map[string]string, content string) {
 	return
 }
 
-func parseVariable(line string) (key string, value string, err error) {
+func (pp PostParser) parseVariable(line string) (key string, value string, err error) {
 	pair := strings.SplitN(line, ":", 2)
 	if len(pair) == 2 {
 		key = strings.TrimSpace(pair[0])
