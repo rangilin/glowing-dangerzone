@@ -3,6 +3,7 @@ package main
 // -------------------------------------------------- tests for 'new' command
 import (
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -13,13 +14,13 @@ func TestNew(t *testing.T) {
 
 	NewBlogCreator(dir).Create()
 
-	assertFilePathExist(t, dir+"/_posts")
-	assertFilePathExist(t, dir+"/_layouts")
+	assertFilePathExist(t, filepath.Join(dir, PostsDirName))
+	assertFilePathExist(t, filepath.Join(dir, LayoutsDirName))
 }
 
 func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {
 	dir := createTmpFolder(t)
-	os.Mkdir(dir+"/_whatever", os.ModePerm)
+	os.Mkdir(filepath.Join(dir, "_whatever"), os.ModePerm)
 
 	err := NewBlogCreator(dir).Create()
 

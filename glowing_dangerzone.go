@@ -6,6 +6,16 @@ import (
 	"path/filepath"
 )
 
+// constant for directory name
+const (
+	// name of directory contains build result
+	BuildDirName = "blog"
+	// name of directory contains user post files
+	PostsDirName = "posts"
+	// name of directory contains template files
+	LayoutsDirName = "layouts"
+)
+
 func main() {
 
 	dir := getCurrentDir()

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 // Return a BlogCreator that will create blog engine files in the directory
@@ -21,11 +22,11 @@ func (bc BlogCreator) Create() error {
 		return fmt.Errorf("%s is not empty", bc.dir)
 	}
 
-	posts := bc.dir + "/_posts"
+	posts := filepath.Join(bc.dir, PostsDirName)
 	if err := os.Mkdir(posts, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", posts)
 	}
-	layouts := bc.dir + "/_layouts"
+	layouts := filepath.Join(bc.dir, LayoutsDirName)
 	if err := os.Mkdir(layouts, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", layouts)
 	}
