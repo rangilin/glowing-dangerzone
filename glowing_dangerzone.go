@@ -11,7 +11,7 @@ func main() {
 	dir := getCurrentDir()
 	cmd := getSubCommand()
 	if cmd == "new" {
-		createBlogLayout(dir)
+		NewBlogCreator(dir).Create()
 	} else if cmd == "build" {
 		BlogBuilder{dir + "/blog"}.Build()
 	} else {

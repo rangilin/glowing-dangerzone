@@ -11,7 +11,7 @@ import (
 func TestNew(t *testing.T) {
 	dir := createTmpFolder(t)
 
-	createBlogLayout(dir)
+	NewBlogCreator(dir).Create()
 
 	assertFilePathExist(t, dir+"/_markdowns")
 	assertFilePathExist(t, dir+"/_engine")
@@ -21,7 +21,7 @@ func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {
 	dir := createTmpFolder(t)
 	os.Mkdir(dir+"/_whatever", os.ModePerm)
 
-	err := createBlogLayout(dir)
+	err := NewBlogCreator(dir).Create()
 
 	assertErrorDueToNonEmptyDir(t, err)
 }
