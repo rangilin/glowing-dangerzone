@@ -5,7 +5,11 @@ import (
 	"os"
 )
 
-// BlogBuilder build the blog and output the result to specified directory.
+func NewBlogBuilder(dir string) BlogBuilder {
+	return BlogBuilder{dir}
+}
+
+// A BlogBuilder build the blog and output the result to specified directory.
 type BlogBuilder struct {
 	// directory to put generated files
 	dir string
@@ -13,8 +17,6 @@ type BlogBuilder struct {
 
 // Build the blog
 func (b BlogBuilder) Build() error {
-	showMessage("Preparing...")
-
 	b.cleanup()
 
 	file, err := os.Create(b.dir + "/index.html")
@@ -22,7 +24,6 @@ func (b BlogBuilder) Build() error {
 		return fmt.Errorf("Unable to build blog due to: %s", err.Error())
 	}
 	file.WriteString("<html><body><h1>Blog</h1></body></html>")
-	showMessage("Done :)")
 	return nil
 }
 

@@ -13,8 +13,8 @@ func TestNew(t *testing.T) {
 
 	NewBlogCreator(dir).Create()
 
-	assertFilePathExist(t, dir+"/_markdowns")
-	assertFilePathExist(t, dir+"/_engine")
+	assertFilePathExist(t, dir+"/_posts")
+	assertFilePathExist(t, dir+"/_layouts")
 }
 
 func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {

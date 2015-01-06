@@ -6,10 +6,6 @@ import (
 	"path/filepath"
 )
 
-func showMessage(msg string) {
-	fmt.Printf("[GD] %s\n", msg)
-}
-
 func isDirEmpty(root string) (bool, error) {
 	info, err := os.Lstat(root)
 	if err != nil {

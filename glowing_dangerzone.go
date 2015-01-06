@@ -13,7 +13,7 @@ func main() {
 	if cmd == "new" {
 		NewBlogCreator(dir).Create()
 	} else if cmd == "build" {
-		BlogBuilder{dir + "/blog"}.Build()
+		NewBlogBuilder(dir + "/blog").Build()
 	} else {
 		log.Fatalf("unknown command %s", cmd)
 	}

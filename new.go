@@ -21,14 +21,13 @@ func (bc BlogCreator) Create() error {
 		return fmt.Errorf("%s is not empty", bc.dir)
 	}
 
-	showMessage("create _markdowns folder...")
-	if err := os.Mkdir(bc.dir+"/_markdowns", os.ModePerm); err != nil {
-		return fmt.Errorf("Unable to create folder %s", bc.dir+"/_markdowns")
+	posts := bc.dir + "/_posts"
+	if err := os.Mkdir(posts, os.ModePerm); err != nil {
+		return fmt.Errorf("Unable to create folder %s", posts)
 	}
-	showMessage("create _engine folder...")
-	if err := os.Mkdir(bc.dir+"/_engine", os.ModePerm); err != nil {
-		return fmt.Errorf("Unable to create folder %s", bc.dir+"/_engine")
+	layouts := bc.dir + "/_layouts"
+	if err := os.Mkdir(layouts, os.ModePerm); err != nil {
+		return fmt.Errorf("Unable to create folder %s", layouts)
 	}
-	showMessage("Done ! :)")
 	return nil
 }
