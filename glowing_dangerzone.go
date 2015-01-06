@@ -10,11 +10,12 @@ func main() {
 
 	dir := getCurrentDir()
 	cmd := getSubCommand()
-	if cmd == "new" {
+	switch cmd {
+	case "new":
 		NewBlogCreator(dir).Create()
-	} else if cmd == "build" {
+	case "build":
 		NewBlogBuilder(dir + "/blog").Build()
-	} else {
+	default:
 		log.Fatalf("unknown command %s", cmd)
 	}
 }
