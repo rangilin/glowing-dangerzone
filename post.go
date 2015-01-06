@@ -7,6 +7,22 @@ import (
 	"strings"
 )
 
+// Create a PostCreator that operate in specified directory
+func NewPostCreator(dir string) PostCreator {
+	return PostCreator{dir}
+}
+
+// A PostCreator create folder and files for a new post
+type PostCreator struct {
+	// directory to create post
+	dir string
+}
+
+// Create a post
+func (pc PostCreator) Create() {
+
+}
+
 // PostParser parse file into Post
 type PostParser struct {
 	converter MarkdownConverter

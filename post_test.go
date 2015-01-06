@@ -7,6 +7,12 @@ import (
 	"testing"
 )
 
+func TestCreatePostFolder(t *testing.T) {
+	//dir := createTmpFolder(t)
+
+	t.Fatalf("How do I test create post ?")
+}
+
 func TestParseVariable(t *testing.T) {
 	file := withPostFileLikeThis(`---
 key1: value1

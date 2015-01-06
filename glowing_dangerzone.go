@@ -24,7 +24,9 @@ func main() {
 	case "new":
 		NewBlogCreator(dir).Create()
 	case "build":
-		NewBlogBuilder(dir + "/blog").Build()
+		NewBlogBuilder(filepath.Join(dir, BuildDirName)).Build()
+	case "post":
+		NewPostCreator(filepath.Join(dir, PostsDirName)).Create()
 	default:
 		log.Fatalf("unknown command %s", cmd)
 	}
