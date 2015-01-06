@@ -19,12 +19,12 @@ func main() {
 	}
 }
 
-func getSubCommand() (cmd string) {
-	cmd = ""
+func getSubCommand() string {
+	cmd := ""
 	if len(os.Args) > 1 {
 		cmd = os.Args[1]
 	}
-	return
+	return cmd
 }
 
 func getCurrentDir() string {
