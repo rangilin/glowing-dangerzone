@@ -13,7 +13,7 @@ func TestGithubMarkdownConverter(t *testing.T) {
 		t.Fatalf("Unable to convert markdown : %s", err.Error())
 	}
 
-	expect := "<p>Hello World</p>"
+	expect := "<p>Hello World</p>\n"
 	if html != expect {
 		t.Fatalf("Expect html is %s, but got %q ", expect, html)
 	}
