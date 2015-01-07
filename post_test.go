@@ -29,6 +29,16 @@ func TestCreatePostFile(t *testing.T) {
 	assertFilePathExist(t, filepath.Join(dir, postDir, "post.md"))
 }
 
+func TestCreatePostPrettifyFolder(t *testing.T) {
+	title := "Folder's name"
+	dir := createTmpFolder(t)
+
+	NewPostCreator(dir).Create(title)
+
+	postDir := time.Now().Format(ISO8601Date) + "-folders-name"
+	assertFilePathExist(t, filepath.Join(dir, postDir))
+}
+
 func TestParseVariable(t *testing.T) {
 	file := withPostFileLikeThis(`---
 key1: value1

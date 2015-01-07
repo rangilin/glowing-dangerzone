@@ -24,7 +24,7 @@ type PostCreator struct {
 func (pc PostCreator) Create(title string) error {
 	date := time.Now().Format(ISO8601Date)
 
-	postDir := filepath.Join(pc.dir, date+"-"+title)
+	postDir := filepath.Join(pc.dir, date+"-"+Prettify(title))
 	if err := os.Mkdir(postDir, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", postDir)
 	}
