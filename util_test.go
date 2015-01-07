@@ -31,4 +31,7 @@ func TestPrettify(t *testing.T) {
 		t.Fatalf("Prettify should remove single quote, but got %s", result)
 	}
 
+	if result := Prettify("LOWER CASE"); result != "lower-case" {
+		t.Fatalf("Prettify should convert to lower case, but got %s", result)
+	}
 }

@@ -35,7 +35,8 @@ func IsDirEmpty(root string) (bool, error) {
 func Prettify(str string) string {
 	reg, _ := regexp.Compile("[^A-Za-z0-9]+")
 
-	s := strings.Replace(str, "'", "", -1)
+	s := strings.ToLower(str)
+	s = strings.Replace(s, "'", "", -1)
 	s = reg.ReplaceAllString(s, " ")
 
 	chars := make([]string, 0)
