@@ -4,13 +4,18 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
+	"time"
 )
 
 func TestCreatePostFolder(t *testing.T) {
-	//dir := createTmpFolder(t)
+	dir := createTmpFolder(t)
+	postDir := time.Now().Format(ISO8601Date) + "-test"
 
-	t.Fatalf("How do I test create post ?")
+	NewPostCreator(dir).Create("test")
+
+	assertFilePathExist(t, filepath.Join(dir, postDir))
 }
 
 func TestParseVariable(t *testing.T) {

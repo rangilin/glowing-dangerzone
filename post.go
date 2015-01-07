@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
+	"time"
 )
 
 // Create a PostCreator that operate in specified directory
@@ -18,9 +20,15 @@ type PostCreator struct {
 	dir string
 }
 
-// Create a post
-func (pc PostCreator) Create() {
+// Create a post with specified title
+func (pc PostCreator) Create(title string) error {
+	date := time.Now().Format(ISO8601Date)
 
+	postDir := filepath.Join(pc.dir, date+"-"+title)
+	if err := os.Mkdir(postDir, os.ModePerm); err != nil {
+		return fmt.Errorf("Unable to create folder %s", postDir)
+	}
+	return nil
 }
 
 // PostParser parse file into Post

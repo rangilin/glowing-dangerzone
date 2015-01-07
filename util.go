@@ -6,6 +6,9 @@ import (
 	"path/filepath"
 )
 
+// Date Format for ISO 8601
+const ISO8601Date = "2006-01-02"
+
 func isDirEmpty(root string) (bool, error) {
 	info, err := os.Lstat(root)
 	if err != nil {
