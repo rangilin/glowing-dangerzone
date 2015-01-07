@@ -10,12 +10,23 @@ import (
 )
 
 func TestCreatePostFolder(t *testing.T) {
+	title := "test"
 	dir := createTmpFolder(t)
-	postDir := time.Now().Format(ISO8601Date) + "-test"
 
-	NewPostCreator(dir).Create("test")
+	NewPostCreator(dir).Create(title)
 
+	postDir := time.Now().Format(ISO8601Date) + "-" + title
 	assertFilePathExist(t, filepath.Join(dir, postDir))
+}
+
+func TestCreatePostFile(t *testing.T) {
+	title := "test"
+	dir := createTmpFolder(t)
+
+	NewPostCreator(dir).Create(title)
+
+	postDir := time.Now().Format(ISO8601Date) + "-" + title
+	assertFilePathExist(t, filepath.Join(dir, postDir, "post.md"))
 }
 
 func TestParseVariable(t *testing.T) {

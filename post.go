@@ -28,6 +28,10 @@ func (pc PostCreator) Create(title string) error {
 	if err := os.Mkdir(postDir, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", postDir)
 	}
+
+	if _, err := os.Create(filepath.Join(postDir, "post.md")); err != nil {
+		return fmt.Errorf("Unable to create post.md")
+	}
 	return nil
 }
 
