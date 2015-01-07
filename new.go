@@ -18,7 +18,7 @@ type BlogCreator struct {
 }
 
 func (bc BlogCreator) Create() error {
-	if isEmpty, _ := isDirEmpty(bc.dir); !isEmpty {
+	if isEmpty, _ := IsDirEmpty(bc.dir); !isEmpty {
 		return fmt.Errorf("%s is not empty", bc.dir)
 	}
 
