@@ -17,3 +17,18 @@ func TestIsDirEmpty(t *testing.T) {
 		t.Fatalf("Dir %s is not empty, but return true", nonEmptyDir)
 	}
 }
+
+func TestPrettify(t *testing.T) {
+	if result := Prettify("test space"); result != "test-space" {
+		t.Fatalf("Prettify should change space to dash, but got %s", result)
+	}
+
+	if result := Prettify("  test  trim  "); result != "test-trim" {
+		t.Fatalf("Prettify should trim unnecessary space, but got %s", result)
+	}
+
+	if result := Prettify("it's a test"); result != "its-a-test" {
+		t.Fatalf("Prettify should remove single quote, but got %s", result)
+	}
+
+}

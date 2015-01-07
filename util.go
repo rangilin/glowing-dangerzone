@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 // Date Format for ISO 8601
@@ -27,4 +29,20 @@ func IsDirEmpty(root string) (bool, error) {
 	}
 	filepath.Walk(root, walkFn)
 	return len(entries) == 0, nil
+}
+
+// Prettify string into url/filepath friendly string
+func Prettify(str string) string {
+	reg, _ := regexp.Compile("[^A-Za-z0-9]+")
+
+	s := strings.Replace(str, "'", "", -1)
+	s = reg.ReplaceAllString(s, " ")
+
+	chars := make([]string, 0)
+	for _, v := range strings.Split(s, " ") {
+		if len(v) != 0 {
+			chars = append(chars, v)
+		}
+	}
+	return strings.Join(chars, "-")
 }
