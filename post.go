@@ -29,9 +29,15 @@ func (pc PostCreator) Create(title string) error {
 		return fmt.Errorf("Unable to create folder %s", postDir)
 	}
 
-	if _, err := os.Create(filepath.Join(postDir, "post.md")); err != nil {
+	file, err := os.Create(filepath.Join(postDir, "post.md"))
+	if err != nil {
 		return fmt.Errorf("Unable to create post.md")
 	}
+	content := fmt.Sprintf(`---
+title: %s
+---
+`, title)
+	file.WriteString(content)
 	return nil
 }
 

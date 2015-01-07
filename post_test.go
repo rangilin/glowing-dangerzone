@@ -10,12 +10,12 @@ import (
 )
 
 func TestCreatePostFolder(t *testing.T) {
-	title := "test"
+	title := "Folder's name"
 	dir := createTmpFolder(t)
 
 	NewPostCreator(dir).Create(title)
 
-	postDir := time.Now().Format(ISO8601Date) + "-" + title
+	postDir := time.Now().Format(ISO8601Date) + "-folders-name"
 	assertFilePathExist(t, filepath.Join(dir, postDir))
 }
 
@@ -29,14 +29,23 @@ func TestCreatePostFile(t *testing.T) {
 	assertFilePathExist(t, filepath.Join(dir, postDir, "post.md"))
 }
 
-func TestCreatePostPrettifyFolder(t *testing.T) {
-	title := "Folder's name"
+func TestPostFileContent(t *testing.T) {
+	title := "Post Title"
 	dir := createTmpFolder(t)
 
 	NewPostCreator(dir).Create(title)
 
-	postDir := time.Now().Format(ISO8601Date) + "-folders-name"
-	assertFilePathExist(t, filepath.Join(dir, postDir))
+	postDir := time.Now().Format(ISO8601Date) + "-post-title"
+	postFilePath := filepath.Join(dir, postDir, "post.md")
+	content, _ := ioutil.ReadFile(postFilePath)
+
+	expect := `---
+title: Post Title
+---
+`
+	if expect != string(content) {
+		t.Fatalf("Expect post file be \n%s\n, but got \n%s\n", expect, content)
+	}
 }
 
 func TestParseVariable(t *testing.T) {
