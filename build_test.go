@@ -15,7 +15,7 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 	assertFilePathExist(t, output)
 }
 
-func TestBlogFolderWillBeDeletedBeforeBuild(t *testing.T) {
+func TestCleanUpBeforeBuild(t *testing.T) {
 	dir := createTmpFolder(t)
 	output := filepath.Join(dir, "blog")
 	deleteme := filepath.Join(output, "delete_me")
@@ -27,4 +27,8 @@ func TestBlogFolderWillBeDeletedBeforeBuild(t *testing.T) {
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
 	}
+}
+
+func TestBuild(t *testing.T) {
+
 }
