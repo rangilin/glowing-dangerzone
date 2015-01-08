@@ -51,7 +51,7 @@ type PostParser struct {
 func (pp PostParser) Parse(f *os.File) Post {
 	post := NewPost()
 	post.variables, post.content = pp.parseLineByLine(f)
-	post.htmlContent = pp.converter.Convert(post.content)
+	post.htmlContent, _ = pp.converter.Convert(post.content)
 	return *post
 }
 

@@ -65,6 +65,6 @@ type TestMarkdownConverter struct {
 }
 
 // Convert simply return specified markdown.
-func (tmdc TestMarkdownConverter) Convert(markdown string) string {
-	return fmt.Sprintf("<html>%s</html>", markdown)
+func (tmdc TestMarkdownConverter) Convert(markdown string) (string, error) {
+	return fmt.Sprintf("<html>%s</html>", markdown), nil
 }

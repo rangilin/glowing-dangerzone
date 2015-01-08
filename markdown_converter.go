@@ -9,7 +9,7 @@ import (
 
 // MarkdownConverter convert the specified markdown into HTML.
 type MarkdownConverter interface {
-	Convert(markdown string) string
+	Convert(markdown string) (string, error)
 }
 
 // GithubMarkdownConverter convert markdown into HTML with Github's markdown API.
