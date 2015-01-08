@@ -2,33 +2,29 @@ package main
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 )
 
 func TestBuildWillCreateBlogFolder(t *testing.T) {
 	dir := createTmpFolder(t)
+	output := filepath.Join(dir, "blog")
 
-	NewBlogBuilder(dir + "/blog").Build()
+	NewBlogBuilder(dir).Build(output)
 
-	assertFilePathExist(t, dir+"/blog")
+	assertFilePathExist(t, output)
 }
 
 func TestBlogFolderWillBeDeletedBeforeBuild(t *testing.T) {
 	dir := createTmpFolder(t)
-	os.Mkdir(dir+"/blog", os.ModePerm)
-	os.Create(dir + "/blog/delete_me")
+	output := filepath.Join(dir, "blog")
+	deleteme := filepath.Join(output, "delete_me")
+	os.Mkdir(output, os.ModePerm)
+	os.Create(deleteme)
 
-	NewBlogBuilder(dir + "/blog").Build()
+	NewBlogBuilder(dir).Build(output)
 
-	if _, err := os.Stat(dir + "/blog/delete_me"); !os.IsNotExist(err) {
+	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
 	}
-}
-
-func TestBuildBlogWillGenerateIndexPage(t *testing.T) {
-	dir := createTmpFolder(t)
-
-	NewBlogBuilder(dir + "/blog").Build()
-
-	assertFilePathExist(t, dir+"/blog/index.html")
 }

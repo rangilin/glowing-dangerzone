@@ -24,7 +24,7 @@ func main() {
 	case "new":
 		NewBlogCreator(dir).Create()
 	case "build":
-		NewBlogBuilder(filepath.Join(dir, BuildDirName)).Build()
+		NewBlogBuilder(filepath.Join(dir, BuildDirName)).Build("")
 	case "post":
 		NewPostCreator(filepath.Join(dir, PostsDirName)).Create("test")
 	case "serve":
