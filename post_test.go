@@ -79,6 +79,18 @@ test`)
 	assertPostHtmlContent(t, post, "<html>test\n</html>")
 }
 
+func TestPost(t *testing.T) {
+	file := withPostFileLikeThis(`---
+title: Post Title
+---
+test`)
+	post := newTestPostParser().Parse(file)
+
+	if post.Title() != "Post Title" {
+		t.Fatalf("Expect post title is %s, but got %s", "Post Title", post.Title())
+	}
+}
+
 func withPostFileLikeThis(content string) os.File {
 	file, _ := ioutil.TempFile(os.TempDir(), "post_")
 	ioutil.WriteFile(file.Name(), []byte(content), 0644)

@@ -95,6 +95,11 @@ func (pp PostParser) parseVariable(line string) (key string, value string, err e
 	return
 }
 
+func NewPost() *Post {
+	p := new(Post)
+	return p
+}
+
 // Post represented a post in blog
 type Post struct {
 	variables   map[string]string
@@ -102,7 +107,6 @@ type Post struct {
 	htmlContent string
 }
 
-func NewPost() *Post {
-	p := new(Post)
-	return p
+func (p Post) Title() string {
+	return p.variables["title"]
 }
