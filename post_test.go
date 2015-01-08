@@ -9,46 +9,24 @@ import (
 	"time"
 )
 
-func TestCreatePostFolder(t *testing.T) {
+func TestCreatePost(t *testing.T) {
 	title := "Folder's name"
-	dir := createTmpFolder(t)
-
-	NewPostCreator(dir).Create(title)
-
-	postDir := time.Now().Format(ISO8601Date) + "-folders-name"
-	assertFilePathExist(t, filepath.Join(dir, postDir))
-}
-
-func TestCreatePostFile(t *testing.T) {
-	title := "test"
-	dir := createTmpFolder(t)
-
-	NewPostCreator(dir).Create(title)
-
-	postDir := time.Now().Format(ISO8601Date) + "-" + title
-	assertFilePathExist(t, filepath.Join(dir, postDir, "post.md"))
-}
-
-func TestPostFileContent(t *testing.T) {
-	title := "Post Title"
 	date := time.Now().Format(ISO8601Date)
 	dir := createTmpFolder(t)
 
 	NewPostCreator(dir).Create(title)
 
-	postDir := date + "-" + Prettify(title)
-	postFilePath := filepath.Join(dir, postDir, "post.md")
-	content, _ := ioutil.ReadFile(postFilePath)
+	postDir := filepath.Join(dir, date+"-folders-name")
+	postFile := filepath.Join(postDir, "post.md")
 
-	expect := fmt.Sprintf(`---
+	assertFilePathExist(t, postDir)
+	assertFilePathExist(t, postFile)
+	assertFileContent(t, postFile, fmt.Sprintf(`---
 date: %s
 title: %s
 ---
-`, date, title)
+`, date, title))
 
-	if expect != string(content) {
-		t.Fatalf("Expect post file be \n%s\n, but got \n%s\n", expect, content)
-	}
 }
 
 func TestParseVariable(t *testing.T) {
