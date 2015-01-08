@@ -29,6 +29,13 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	}
 }
 
-func TestBuild(t *testing.T) {
+func TestBuildGeneratePostFiles(t *testing.T) {
+	data, _ := filepath.Abs("testdata")
+	testDataDir := filepath.Join(data, "build_test")
+	output := filepath.Join(createTmpFolder(t), "blog")
 
+	NewBlogBuilder(testDataDir).Build(output)
+
+	assertFilePathExist(t, filepath.Join(output, "test-build-1"))
+	assertFilePathExist(t, filepath.Join(output, "test-build-2"))
 }

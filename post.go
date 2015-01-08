@@ -47,6 +47,10 @@ type PostParser struct {
 	converter MarkdownConverter
 }
 
+func NewPostParser() PostParser {
+	return PostParser{NewGithubMarkdownConverter()}
+}
+
 // Parse parse specified file into post
 func (pp PostParser) Parse(f *os.File) Post {
 	post := NewPost()

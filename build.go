@@ -13,6 +13,8 @@ func NewBlogBuilder(dir string) BlogBuilder {
 type BlogBuilder struct {
 	// where posts, layouts directory exist
 	dir string
+
+	//postParser PostParser
 }
 
 // Generate static files to specified directory
