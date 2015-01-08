@@ -28,7 +28,7 @@ title: %s
 }
 
 func TestParsePost(t *testing.T) {
-	file, _ := os.Open("testdata/posts/2015-01-08-test-post-parser/post.md")
+	file, _ := os.Open("testdata/post_test/2015-01-08-test-post-parser/post.md")
 
 	post := newTestPostParser().Parse(file)
 
