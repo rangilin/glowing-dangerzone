@@ -18,7 +18,7 @@ const (
 
 func main() {
 
-	dir := getCurrentDir()
+	dir, _ := os.Getwd()
 	cmd := getSubCommand()
 	switch cmd {
 	case "new":
@@ -40,12 +40,4 @@ func getSubCommand() string {
 		cmd = os.Args[1]
 	}
 	return cmd
-}
-
-func getCurrentDir() string {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-	return dir
 }
