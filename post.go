@@ -34,9 +34,10 @@ func (pc PostCreator) Create(title string) error {
 		return fmt.Errorf("Unable to create post.md")
 	}
 	content := fmt.Sprintf(`---
+date: %s
 title: %s
 ---
-`, title)
+`, date, title)
 	file.WriteString(content)
 	return nil
 }

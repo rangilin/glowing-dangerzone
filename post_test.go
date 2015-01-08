@@ -31,18 +31,21 @@ func TestCreatePostFile(t *testing.T) {
 
 func TestPostFileContent(t *testing.T) {
 	title := "Post Title"
+	date := time.Now().Format(ISO8601Date)
 	dir := createTmpFolder(t)
 
 	NewPostCreator(dir).Create(title)
 
-	postDir := time.Now().Format(ISO8601Date) + "-post-title"
+	postDir := date + "-" + Prettify(title)
 	postFilePath := filepath.Join(dir, postDir, "post.md")
 	content, _ := ioutil.ReadFile(postFilePath)
 
-	expect := `---
-title: Post Title
+	expect := fmt.Sprintf(`---
+date: %s
+title: %s
 ---
-`
+`, date, title)
+
 	if expect != string(content) {
 		t.Fatalf("Expect post file be \n%s\n, but got \n%s\n", expect, content)
 	}
