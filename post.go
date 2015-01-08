@@ -48,21 +48,21 @@ type PostParser struct {
 }
 
 // Parse parse specified file into post
-func (pp PostParser) Parse(f os.File) Post {
+func (pp PostParser) Parse(f *os.File) Post {
 	post := NewPost()
 	post.variables, post.content = pp.parseLineByLine(f)
 	post.htmlContent = pp.converter.Convert(post.content)
 	return *post
 }
 
-func (pp PostParser) parseLineByLine(f os.File) (variables map[string]string, content string) {
+func (pp PostParser) parseLineByLine(f *os.File) (variables map[string]string, content string) {
 	variables = make(map[string]string)
 	content = ""
 
 	defer f.Close()
 
 	isInVariablesBlock := false
-	scanner := bufio.NewScanner(&f)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if !isInVariablesBlock && line == "---" {

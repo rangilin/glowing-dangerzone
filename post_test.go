@@ -26,7 +26,6 @@ date: %s
 title: %s
 ---
 `, date, title))
-
 }
 
 func TestParseVariable(t *testing.T) {
@@ -72,10 +71,10 @@ test`)
 	}
 }
 
-func withPostFileLikeThis(content string) os.File {
+func withPostFileLikeThis(content string) *os.File {
 	file, _ := ioutil.TempFile(os.TempDir(), "post_")
 	ioutil.WriteFile(file.Name(), []byte(content), 0644)
-	return *file
+	return file
 }
 
 func assertPostHaveVariable(t *testing.T, post Post, key string, expectedValue string) {
