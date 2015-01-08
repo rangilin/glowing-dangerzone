@@ -111,3 +111,15 @@ type Post struct {
 func (p Post) Title() string {
 	return p.variables["title"]
 }
+
+func (p Post) Date() string {
+	return p.variables["date"]
+}
+
+func (p Post) Content() string {
+	return p.content
+}
+
+func (p Post) HtmlContent() string {
+	return p.htmlContent
+}

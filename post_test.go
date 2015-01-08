@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -28,71 +27,29 @@ title: %s
 `, date, title))
 }
 
-func TestParseVariable(t *testing.T) {
-	file := withPostFileLikeThis(`---
-key1: value1
-key2: value2
----
-`)
+func TestParsePost(t *testing.T) {
+	file, _ := os.Open("testdata/posts/2015-01-08-test-post-parser/post.md")
 
 	post := newTestPostParser().Parse(file)
 
-	assertPostHaveVariable(t, post, "key1", "value1")
-	assertPostHaveVariable(t, post, "key2", "value2")
-}
-
-func TestParseContent(t *testing.T) {
-	file := withPostFileLikeThis(`---
----
-test`)
-	post := newTestPostParser().Parse(file)
-
-	assertPostContent(t, post, "test\n")
-}
-
-func TestParseHtmlContent(t *testing.T) {
-	file := withPostFileLikeThis(`---
----
-test`)
-	post := newTestPostParser().Parse(file)
-
-	assertPostHtmlContent(t, post, "<html>test\n</html>")
-}
-
-func TestPost(t *testing.T) {
-	file := withPostFileLikeThis(`---
-title: Post Title
----
-test`)
-	post := newTestPostParser().Parse(file)
-
-	if post.Title() != "Post Title" {
-		t.Fatalf("Expect post title is %s, but got %s", "Post Title", post.Title())
+	title := "This is a test"
+	if post.Title() != title {
+		t.Fatalf("Expect post title [%s], but got [%s]", title, post.Title())
 	}
-}
 
-func withPostFileLikeThis(content string) *os.File {
-	file, _ := ioutil.TempFile(os.TempDir(), "post_")
-	ioutil.WriteFile(file.Name(), []byte(content), 0644)
-	return file
-}
-
-func assertPostHaveVariable(t *testing.T, post Post, key string, expectedValue string) {
-	if value, exist := post.variables[key]; !exist || value != expectedValue {
-		t.Fatalf("Expect a variable pair [%s: %s] exist in post, but not exist",
-			key, expectedValue)
+	date := "2015-01-08"
+	if post.Date() != date {
+		t.Fatalf("Expect post date [%s], but got [%s]", date, post.Date())
 	}
-}
 
-func assertPostContent(t *testing.T, post Post, expected string) {
-	if post.content != expected {
-		t.Fatalf("Expect post content is %q, but got %q", expected, post.content)
+	content := "content\n"
+	if post.Content() != content {
+		t.Fatalf("Expect post content [%s]. but got [%s]", content, post.Content())
 	}
-}
 
-func assertPostHtmlContent(t *testing.T, post Post, expected string) {
-	if post.htmlContent != expected {
-		t.Fatalf("Expect post html content is %q, but got %q", expected, post.htmlContent)
+	htmlContent := "<html>content\n</html>"
+	if post.HtmlContent() != htmlContent {
+		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent, post.HtmlContent())
 	}
 }
 
