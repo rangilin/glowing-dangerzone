@@ -57,6 +57,7 @@ func (pp PostParser) Parse(dir string) Post {
 	file, _ := os.Open(filepath.Join(dir, PostFileName))
 	post.variables, post.content = pp.parseLineByLine(file)
 	post.htmlContent, _ = pp.converter.Convert(post.content)
+	post.key = filepath.Base(dir)
 	return *post
 }
 
@@ -108,8 +109,13 @@ func NewPost() *Post {
 
 // Post represented a post in blog
 type Post struct {
-	variables   map[string]string
-	content     string
+	// post folder name as the post identifier
+	key string
+	// variables in post file
+	variables map[string]string
+	// content in Markdown
+	content string
+	// content in HTML converted from Markdown
 	htmlContent string
 }
 
@@ -127,4 +133,8 @@ func (p Post) Content() string {
 
 func (p Post) HtmlContent() string {
 	return p.htmlContent
+}
+
+func (p Post) Key() string {
+	return p.key
 }

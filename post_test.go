@@ -49,6 +49,12 @@ func TestParsePost(t *testing.T) {
 		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent,
 			post.HtmlContent())
 	}
+
+	key := "2015-01-08-test-post-parser"
+	if post.Key() != key {
+		t.Fatalf("Expect post key [%s], but got [%s]", key, post.Key())
+	}
+
 }
 
 func newTestPostParser() PostParser {
