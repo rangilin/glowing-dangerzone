@@ -54,18 +54,20 @@ func NewPostParser() PostParser {
 // Parse will parse Post from specified post folder
 func (pp PostParser) Parse(dir string) Post {
 	post := NewPost()
-	file, _ := os.Open(filepath.Join(dir, PostFileName))
-	post.variables, post.content = pp.parseLineByLine(file)
-	post.htmlContent, _ = pp.converter.Convert(post.content)
+
 	post.key = filepath.Base(dir)
+	post.variables, post.content = pp.parsePostFile(dir)
+	post.htmlContent, _ = pp.converter.Convert(post.content)
 	return *post
 }
 
-func (pp PostParser) parseLineByLine(f *os.File) (variables map[string]string, content string) {
-	variables = make(map[string]string)
-	content = ""
+func (pp PostParser) parsePostFile(dir string) (map[string]string, string) {
 
+	f, _ := os.Open(filepath.Join(dir, PostFileName))
 	defer f.Close()
+
+	variables := make(map[string]string)
+	content := ""
 
 	isInVariablesBlock := false
 	scanner := bufio.NewScanner(f)
@@ -87,8 +89,7 @@ func (pp PostParser) parseLineByLine(f *os.File) (variables map[string]string, c
 			content += (line + "\n")
 		}
 	}
-
-	return
+	return variables, content
 }
 
 func (pp PostParser) parseVariable(line string) (key string, value string, err error) {
