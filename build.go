@@ -19,9 +19,14 @@ type BlogBuilder struct {
 }
 
 // Generate static files to specified directory
-func (b BlogBuilder) Build(outputPath string) error {
-	os.RemoveAll(outputPath)
-	os.Mkdir(outputPath, os.ModePerm)
+func (b BlogBuilder) Build(output string) error {
+	os.RemoveAll(output)
+	os.Mkdir(output, os.ModePerm)
+
+	for _, path := range b.getPostPaths() {
+		post := b.postParser.Parse(path)
+		os.Mkdir(filepath.Join(output, Prettify(post.Title())), os.ModePerm)
+	}
 	return nil
 }
 
