@@ -51,10 +51,11 @@ func NewPostParser() PostParser {
 	return PostParser{NewGithubMarkdownConverter()}
 }
 
-// Parse parse specified file into post
-func (pp PostParser) Parse(f *os.File) Post {
+// Parse will parse Post from specified post folder
+func (pp PostParser) Parse(dir string) Post {
 	post := NewPost()
-	post.variables, post.content = pp.parseLineByLine(f)
+	file, _ := os.Open(filepath.Join(dir, PostFileName))
+	post.variables, post.content = pp.parseLineByLine(file)
 	post.htmlContent, _ = pp.converter.Convert(post.content)
 	return *post
 }

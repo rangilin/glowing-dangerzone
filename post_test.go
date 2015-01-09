@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -28,10 +27,8 @@ title: %s
 }
 
 func TestParsePost(t *testing.T) {
-	file, _ := os.Open("testdata/post_test/2015-01-08-test-post-parser/post.md")
-
-	post := newTestPostParser().Parse(file)
-
+	testPostDir := "testdata/post_test/2015-01-08-test-post-parser/"
+	post := newTestPostParser().Parse(testPostDir)
 	title := "This is a test"
 	if post.Title() != title {
 		t.Fatalf("Expect post title [%s], but got [%s]", title, post.Title())
@@ -49,7 +46,8 @@ func TestParsePost(t *testing.T) {
 
 	htmlContent := "<html>content\n</html>"
 	if post.HtmlContent() != htmlContent {
-		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent, post.HtmlContent())
+		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent,
+			post.HtmlContent())
 	}
 }
 

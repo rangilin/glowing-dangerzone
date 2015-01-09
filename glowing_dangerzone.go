@@ -12,6 +12,8 @@ const (
 	BuildDirName = "blog"
 	// name of directory contains user post files
 	PostsDirName = "posts"
+	// name of post file
+	PostFileName = "post.md"
 	// name of directory contains template files
 	LayoutsDirName = "layouts"
 )
