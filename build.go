@@ -25,7 +25,9 @@ func (b BlogBuilder) Build(output string) error {
 
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)
-		os.Mkdir(filepath.Join(output, Prettify(post.Title())), os.ModePerm)
+		postDir := filepath.Join(output, Prettify(post.Title()))
+		os.Mkdir(postDir, os.ModePerm)
+		os.Create(filepath.Join(postDir, "index.html"))
 	}
 	return nil
 }
