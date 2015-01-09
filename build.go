@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -25,9 +26,19 @@ func (b BlogBuilder) Build(output string) error {
 
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)
+
 		postDir := filepath.Join(output, Prettify(post.Title()))
-		os.Mkdir(postDir, os.ModePerm)
-		os.Create(filepath.Join(postDir, "index.html"))
+		err := os.Mkdir(postDir, os.ModePerm)
+		if err != nil {
+			return fmt.Errorf("Unable to create post folder %s", postDir)
+		}
+
+		index := filepath.Join(postDir, "index.html")
+		file, err := os.Create(index)
+		if err != nil {
+			return fmt.Errorf("Unable to create file %s", index)
+		}
+		file.WriteString(post.HtmlContent())
 	}
 	return nil
 }

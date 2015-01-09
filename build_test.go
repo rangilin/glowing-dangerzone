@@ -38,6 +38,8 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	NewBlogBuilder(testDataDir).Build(output)
 
 	postDir := filepath.Join(output, "test-build-1")
+	index := filepath.Join(postDir, "index.html")
 	assertFilePathExist(t, postDir)
-	assertFilePathExist(t, filepath.Join(postDir, "index.html"))
+	assertFilePathExist(t, index)
+	assertFileContains(t, index, "This is test build 1 content")
 }

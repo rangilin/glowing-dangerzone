@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -21,10 +22,25 @@ func assertFileContent(t *testing.T, path string, expect string) {
 	}
 
 	if expect != string(content) {
-		t.Fatalf("Expect post file be \n%s\n, but got \n%s\n", expect, content)
+		t.Fatalf("Expect file be \n%s\n, but got \n%s\n", expect, content)
 	}
 }
 
+// assertFileContains assert whether specified file contains specified string
+func assertFileContains(t *testing.T, path string, substr string) {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		t.Fatalf("Unable to read file %s", path)
+	}
+
+	if !strings.Contains(string(content), substr) {
+		t.Fatalf("Expect file content contains \n%s\n, but not, content is \n%s\n",
+			substr,
+			content)
+	}
+}
+
+// create a temporary folder for testing
 func createTmpFolder(t *testing.T) string {
 	dir, err := ioutil.TempDir("", "glowing_dangerzone_test_")
 	if err != nil {
