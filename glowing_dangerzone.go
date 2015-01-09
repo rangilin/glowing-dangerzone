@@ -1,9 +1,11 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // constant for directory name
@@ -26,9 +28,10 @@ func main() {
 	case "new":
 		NewBlogCreator(dir).Create()
 	case "build":
-		NewBlogBuilder(filepath.Join(dir, BuildDirName)).Build("")
+		NewBlogBuilder(dir).Build(filepath.Join(dir, BuildDirName))
 	case "post":
-		NewPostCreator(filepath.Join(dir, PostsDirName)).Create("test")
+		title := parseCreatePostTitle()
+		NewPostCreator(filepath.Join(dir, PostsDirName)).Create(title)
 	case "serve":
 		RunFileServer(filepath.Join(dir, BuildDirName))
 	default:
@@ -42,4 +45,17 @@ func getSubCommand() string {
 		cmd = os.Args[1]
 	}
 	return cmd
+}
+
+func parseCreatePostTitle() string {
+	var title = ""
+	flagSet := flag.NewFlagSet("post", flag.ExitOnError)
+	flagSet.StringVar(&title, "title", "", "post title")
+	flagSet.Parse(os.Args[2:])
+
+	title = strings.TrimSpace(title)
+	if title == "" {
+		log.Fatalf("post title is required")
+	}
+	return title
 }
