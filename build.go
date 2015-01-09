@@ -6,7 +6,7 @@ import (
 )
 
 func NewBlogBuilder(dir string) BlogBuilder {
-	return BlogBuilder{dir}
+	return BlogBuilder{dir, NewPostParser()}
 }
 
 // A BlogBuilder that generate static files from posts/layouts
@@ -14,18 +14,19 @@ type BlogBuilder struct {
 	// where posts, layouts directory exist
 	dir string
 
-	//postParser PostParser
+	// Parser that parse Post from post files
+	postParser PostParser
 }
 
 // Generate static files to specified directory
 func (b BlogBuilder) Build(outputPath string) error {
-	b.cleanup()
-
+	os.RemoveAll(outputPath)
+	os.Mkdir(outputPath, os.ModePerm)
 	return nil
 }
 
-func (b BlogBuilder) cleanup() {
-	output := filepath.Join(b.dir, BuildDirName)
-	os.RemoveAll(output)
-	os.Mkdir(output, os.ModePerm)
+func (b BlogBuilder) getPostPaths() []string {
+	postDir := filepath.Join(b.dir, PostsDirName)
+	paths, _ := filepath.Glob(postDir + string(os.PathSeparator) + "*")
+	return paths
 }
