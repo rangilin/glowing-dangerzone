@@ -26,12 +26,12 @@ func (pc PostCreator) Create(title string) error {
 
 	postDir := filepath.Join(pc.dir, Prettify(title))
 	if err := os.Mkdir(postDir, os.ModePerm); err != nil {
-		return fmt.Errorf("Unable to create folder %s", postDir)
+		return fmt.Errorf("Unable to create folder %s due to %v", postDir, err)
 	}
 
 	file, err := os.Create(filepath.Join(postDir, "post.md"))
 	if err != nil {
-		return fmt.Errorf("Unable to create post.md")
+		return fmt.Errorf("Unable to create post.md due to %v", err)
 	}
 	content := fmt.Sprintf(`---
 date: %s
