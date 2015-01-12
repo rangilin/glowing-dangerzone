@@ -3,9 +3,9 @@ glowing-dangerzone
 
 Just my home made static blog generator, not completed yet.
 
-# Usage #
+## Usage ##
 
-## Create blog ##
+### Create blog ###
 
 To create a new blog :
 
@@ -17,7 +17,7 @@ This will generate two folders :
     layouts : place for HTML layout files
     posts : place for your posts
 
-## Create post ##
+### Create post ###
 
 To create a post :
 
@@ -32,7 +32,7 @@ It will generate a folder named `this-is-a-pen-that-is-a-book` under `posts`. In
 
 Then you can start to write your post.
 
-## Build blog ##
+### Build blog ###
 
 To generate static files for your blog :
 
@@ -41,13 +41,13 @@ To generate static files for your blog :
 It will create a folder `blog` and put all generated files under it.
 
 
-## Serve your blog files ##
+### Serve your blog files ###
 
     glowing-dangerzone serve -port=80
 
 Then it will run a file server on `blog` folder.
 
-# Configuration #
+## Configuration ##
 
 For now, glowing-dangerzone use Github's Markdown API to parse your post files, in order to use the API, you need to create a file `config.json` and put your Github application token in it.
 
