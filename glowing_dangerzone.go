@@ -21,21 +21,26 @@ const (
 )
 
 func main() {
+	var err error
 
 	dir, _ := os.Getwd()
 	cmd := getSubCommand()
 	switch cmd {
 	case "new":
-		NewBlogCreator(dir).Create()
+		err = NewBlogCreator(dir).Create()
 	case "build":
-		NewBlogBuilder(dir).Build(filepath.Join(dir, BuildDirName))
+		err = NewBlogBuilder(dir).Build(filepath.Join(dir, BuildDirName))
 	case "post":
 		title := parseCreatePostTitle()
-		NewPostCreator(filepath.Join(dir, PostsDirName)).Create(title)
+		err = NewPostCreator(filepath.Join(dir, PostsDirName)).Create(title)
 	case "serve":
 		RunFileServer(filepath.Join(dir, BuildDirName))
 	default:
 		log.Fatalf("unknown command %s", cmd)
+	}
+
+	if err != nil {
+		log.Fatal("Errors :", err)
 	}
 }
 
