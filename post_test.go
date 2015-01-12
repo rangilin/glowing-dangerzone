@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"testing"
 	"time"
@@ -24,6 +25,19 @@ date: %s
 title: %s
 ---
 `, date, title))
+}
+
+func TestCreatePostWithDuplicatedTitle(t *testing.T) {
+	title := "duplicated"
+	dir := createTmpFolder(t)
+	postDir := filepath.Join(dir, "duplicated")
+	os.Mkdir(postDir, os.ModePerm)
+
+	err := NewPostCreator(dir).Create(title)
+
+	if err == nil {
+		t.Fatalf("Should error when create duplicated folder, but not")
+	}
 }
 
 func TestParsePost(t *testing.T) {
