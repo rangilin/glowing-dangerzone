@@ -14,7 +14,7 @@ func TestCreatePost(t *testing.T) {
 
 	NewPostCreator(dir).Create(title)
 
-	postDir := filepath.Join(dir, date+"-folders-name")
+	postDir := filepath.Join(dir, "folders-name")
 	postFile := filepath.Join(postDir, "post.md")
 
 	assertFilePathExist(t, postDir)
