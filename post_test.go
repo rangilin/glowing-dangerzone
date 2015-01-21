@@ -41,7 +41,7 @@ func TestCreatePostWithDuplicatedTitle(t *testing.T) {
 }
 
 func TestParsePost(t *testing.T) {
-	testPostDir := "testdata/post_test/2015-01-08-test-post-parser/"
+	testPostDir := "testdata/post_test/test-post-parser/"
 	post := newTestPostParser().Parse(testPostDir)
 	title := "This is a test"
 	if post.Title() != title {
@@ -64,7 +64,7 @@ func TestParsePost(t *testing.T) {
 			post.HtmlContent())
 	}
 
-	key := "2015-01-08-test-post-parser"
+	key := "test-post-parser"
 	if post.Key() != key {
 		t.Fatalf("Expect post key [%s], but got [%s]", key, post.Key())
 	}
