@@ -26,9 +26,16 @@ func (bc BlogCreator) Create() error {
 	if err := os.Mkdir(posts, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", posts)
 	}
+
 	layouts := filepath.Join(bc.dir, LayoutsDirName)
 	if err := os.Mkdir(layouts, os.ModePerm); err != nil {
 		return fmt.Errorf("Unable to create folder %s", layouts)
 	}
+
+	base, err := os.Create(filepath.Join(layouts, "base.tmpl"))
+	if err != nil {
+		return fmt.Errorf("Unable to create base.tmpl due to %v", err)
+	}
+	base.WriteString(BaseTemplateContent)
 	return nil
 }

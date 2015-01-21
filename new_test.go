@@ -14,8 +14,14 @@ func TestNew(t *testing.T) {
 
 	NewBlogCreator(dir).Create()
 
-	assertFilePathExist(t, filepath.Join(dir, PostsDirName))
-	assertFilePathExist(t, filepath.Join(dir, LayoutsDirName))
+	posts := filepath.Join(dir, PostsDirName)
+	layouts := filepath.Join(dir, LayoutsDirName)
+	assertFilePathExist(t, posts)
+	assertFilePathExist(t, layouts)
+
+	base := filepath.Join(layouts, "base.tmpl")
+	assertFilePathExist(t, base)
+	assertFileContains(t, base, BaseTemplateContent)
 }
 
 func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {
