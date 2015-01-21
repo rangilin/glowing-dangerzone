@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"os"
 	"path/filepath"
 )
@@ -23,6 +24,8 @@ type BlogBuilder struct {
 func (b BlogBuilder) Build(output string) error {
 	os.RemoveAll(output)
 	os.Mkdir(output, os.ModePerm)
+
+	//base, _ := template.ParseFiles(filepath.Join(b.dir, LayoutsDirName, "base.tmpl"))
 
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)

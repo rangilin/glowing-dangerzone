@@ -9,6 +9,11 @@ const BaseTemplateContent = `<html>
     <title></title>
   </head>
   <body>
+    <div>{{.Content}}</div>
   </body>
 </html>
+`
+
+// IndexTemplateContent is HTML for index page
+const IndexTemplateContent = `
 `

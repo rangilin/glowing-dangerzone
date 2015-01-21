@@ -41,5 +41,9 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	index := filepath.Join(postDir, "index.html")
 	assertFilePathExist(t, postDir)
 	assertFilePathExist(t, index)
+
+	// post content
 	assertFileContains(t, index, "This is test build 1 content")
+	// base template
+	assertFileContains(t, index, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`)
 }
