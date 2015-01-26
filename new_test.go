@@ -19,9 +19,15 @@ func TestNew(t *testing.T) {
 	assertFilePathExist(t, posts)
 	assertFilePathExist(t, layouts)
 
-	base := filepath.Join(layouts, "base.tmpl")
-	assertFilePathExist(t, base)
-	assertFileContains(t, base, BaseTemplateContent)
+	templates := [...][2]string{
+		[2]string{"base.tmpl", BaseTemplateContent},
+		[2]string{"post.tmpl", PostTemplateContent},
+	}
+	for _, template := range templates {
+		path := filepath.Join(layouts, template[0])
+		assertFilePathExist(t, path)
+		assertFileContains(t, path, template[1])
+	}
 }
 
 func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {

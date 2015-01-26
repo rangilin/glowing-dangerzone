@@ -38,10 +38,10 @@ func (bc BlogCreator) Create() error {
 	}
 	base.WriteString(BaseTemplateContent)
 
-	index, err := os.Create(filepath.Join(layouts, "index.tmpl"))
+	index, err := os.Create(filepath.Join(layouts, "post.tmpl"))
 	if err != nil {
-		return fmt.Errorf("Unable to create index.tmpl due to %v", err)
+		return fmt.Errorf("Unable to create post.tmpl due to %v", err)
 	}
-	index.WriteString(IndexTemplateContent)
+	index.WriteString(PostTemplateContent)
 	return nil
 }

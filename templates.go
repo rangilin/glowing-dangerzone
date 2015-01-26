@@ -17,3 +17,9 @@ const BaseTemplateContent = `<html>
 // IndexTemplateContent is HTML for index page
 const IndexTemplateContent = `
 `
+
+// PostTemplateContent is HTML for post page
+const PostTemplateContent = `<div>
+  {{.Content}}
+</div>
+`
