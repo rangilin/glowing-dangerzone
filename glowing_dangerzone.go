@@ -18,6 +18,8 @@ const (
 	PostFileName = "post.md"
 	// name of directory contains template files
 	LayoutsDirName = "layouts"
+	// name of base template file
+	BaseTemplateName = "base.tmpl"
 )
 
 func main() {

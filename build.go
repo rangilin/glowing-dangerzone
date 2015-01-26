@@ -25,7 +25,10 @@ func (b BlogBuilder) Build(output string) error {
 	os.RemoveAll(output)
 	os.Mkdir(output, os.ModePerm)
 
-	//base, _ := template.ParseFiles(filepath.Join(b.dir, LayoutsDirName, "base.tmpl"))
+	base, err := template.ParseFiles(filepath.Join(b.dir, LayoutsDirName, BaseTemplateName))
+	if err != nil {
+		return fmt.Errorf("Fail to parse %s due to %v", BaseTemplateName, err)
+	}
 
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)
@@ -41,7 +44,11 @@ func (b BlogBuilder) Build(output string) error {
 		if err != nil {
 			return fmt.Errorf("Unable to create file %s", index)
 		}
-		file.WriteString(post.HtmlContent())
+
+		data := map[string]string{
+			"Content": post.HtmlContent(),
+		}
+		base.Execute(file, data)
 	}
 	return nil
 }
