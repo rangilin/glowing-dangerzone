@@ -32,16 +32,22 @@ func (bc BlogCreator) Create() error {
 		return fmt.Errorf("Unable to create folder %s", layouts)
 	}
 
-	base, err := os.Create(filepath.Join(layouts, "base.tmpl"))
+	baseTemplate, err := os.Create(filepath.Join(layouts, "base.tmpl"))
 	if err != nil {
 		return fmt.Errorf("Unable to create base.tmpl due to %v", err)
 	}
-	base.WriteString(BaseTemplateContent)
+	baseTemplate.WriteString(BaseTemplateContent)
 
-	index, err := os.Create(filepath.Join(layouts, "post.tmpl"))
+	postTemplate, err := os.Create(filepath.Join(layouts, "post.tmpl"))
 	if err != nil {
 		return fmt.Errorf("Unable to create post.tmpl due to %v", err)
 	}
-	index.WriteString(PostTemplateContent)
+	postTemplate.WriteString(PostTemplateContent)
+
+	indexTemplate, err := os.Create(filepath.Join(layouts, "index.tmpl"))
+	if err != nil {
+		return fmt.Errorf("Unable to create index.tmpl due to %v", err)
+	}
+	indexTemplate.WriteString(IndexTemplateContent)
 	return nil
 }

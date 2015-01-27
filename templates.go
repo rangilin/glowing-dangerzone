@@ -15,7 +15,8 @@ const BaseTemplateContent = `<html>
 `
 
 // IndexTemplateContent is HTML for index page
-const IndexTemplateContent = `
+const IndexTemplateContent = `<div>
+Index</div>
 `
 
 // PostTemplateContent is HTML for post page

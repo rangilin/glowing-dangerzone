@@ -22,6 +22,7 @@ func TestNew(t *testing.T) {
 	templates := [...][2]string{
 		[2]string{"base.tmpl", BaseTemplateContent},
 		[2]string{"post.tmpl", PostTemplateContent},
+		[2]string{"index.tmpl", IndexTemplateContent},
 	}
 	for _, template := range templates {
 		path := filepath.Join(layouts, template[0])
