@@ -32,7 +32,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 
 func TestBuildGeneratePostFiles(t *testing.T) {
 	data, _ := filepath.Abs("testdata")
-	testDataDir := filepath.Join(data, "build_test")
+	testDataDir := filepath.Join(data, "build", "test_generate_posts")
 	output := filepath.Join(createTmpFolder(t), "blog")
 
 	NewBlogBuilder(testDataDir).Build(output)
