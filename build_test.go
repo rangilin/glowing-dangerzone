@@ -31,8 +31,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 }
 
 func TestBuildGeneratePostFiles(t *testing.T) {
-	data, _ := filepath.Abs("testdata")
-	testDataDir := filepath.Join(data, "build", "test_generate_posts")
+	testDataDir := testDataPath("build", "test_generate_posts")
 	output := filepath.Join(createTmpFolder(t), "blog")
 
 	NewBlogBuilder(testDataDir).Build(output)
@@ -46,4 +45,8 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	assertFileContains(t, index, "This is test build 1 content")
 	// base template
 	assertFileContains(t, index, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`)
+}
+
+func TestBuildGenerateIndexPage(t *testing.T) {
+
 }

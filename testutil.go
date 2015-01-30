@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -47,4 +48,10 @@ func createTmpFolder(t *testing.T) string {
 		t.Fatalf("Unable to create temp dir: %s, error: %s", dir, err)
 	}
 	return dir
+}
+
+func testDataPath(subpaths ...string) string {
+	relative := filepath.Join(append([]string{"testdata"}, subpaths...)...)
+	absolute, _ := filepath.Abs(relative)
+	return absolute
 }
