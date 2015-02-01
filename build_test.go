@@ -1,8 +1,10 @@
 package main
 
 import (
+	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -30,23 +32,49 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	}
 }
 
-func TestBuildGeneratePostFiles(t *testing.T) {
-	testDataDir := testDataPath("build", "test_generate_posts")
-	output := filepath.Join(createTmpFolder(t), "blog")
+func TestBuildGeneratingNecessaryFiles(t *testing.T) {
+	testDataDir := testDataPath("build", "test_generate_files")
+	output := createTmpFolder(t)
 
 	NewBlogBuilder(testDataDir).Build(output)
 
-	postDir := filepath.Join(output, "test-build-1")
-	index := filepath.Join(postDir, "index.html")
+	postDir := filepath.Join(output, "test-post")
 	assertFilePathExist(t, postDir)
-	assertFilePathExist(t, index)
 
-	// post content
-	assertFileContains(t, index, "This is test build 1 content")
-	// base template
-	assertFileContains(t, index, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`)
+	postIndex := filepath.Join(postDir, "index.html")
+	assertFilePathExist(t, postIndex)
 }
 
-func TestBuildGenerateIndexPage(t *testing.T) {
+func TestBuildGeneratePostFiles(t *testing.T) {
+	testDataDir := testDataPath("build", "test_generate_posts")
+	output := createTmpFolder(t)
 
+	NewBlogBuilder(testDataDir).Build(output)
+
+	content, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
+
+	if !strings.Contains(string(content), `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
+		t.Fatalf("No base template in post file")
+	}
+
+	if !strings.Contains(string(content), "This is test post content") {
+		t.Fatalf("No post in post file")
+	}
+}
+
+func TestBuildBlogIndexPage(t *testing.T) {
+	t.SkipNow()
+	testDataDir := testDataPath("build", "test_generate_index")
+	output := createTmpFolder(t)
+
+	NewBlogBuilder(testDataDir).Build(output)
+
+	content, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
+
+	if !strings.Contains(string(content), `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
+		t.Fatalf("No base template in blog index file")
+	}
+	if !strings.Contains(string(content), "Test Post") {
+		t.Fatalf("No post in blog index file")
+	}
 }

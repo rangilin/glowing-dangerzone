@@ -1,8 +1,7 @@
 package main
 
 // BaseTemplateContent is HTML for base.tmpl
-const BaseTemplateContent = `{{ define "base" }}
-<html>
+const BaseTemplateContent = `<html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,10 +9,9 @@ const BaseTemplateContent = `{{ define "base" }}
     <title></title>
   </head>
   <body>
-    <div>{{ template "content" }}</div>
+    <div>{{ template "content" . }}</div>
   </body>
 </html>
-{{ end }}
 `
 
 // IndexTemplateContent is HTML for index page

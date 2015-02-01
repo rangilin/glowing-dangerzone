@@ -20,6 +20,10 @@ const (
 	LayoutsDirName = "layouts"
 	// name of base template file
 	BaseTemplateName = "base.tmpl"
+	// name of blog index template file
+	IndexTemplateName = "index.tmpl"
+	// name of post template file
+	PostTemplateName = "post.tmpl"
 )
 
 func main() {
