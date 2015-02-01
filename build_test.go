@@ -74,7 +74,7 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
 		t.Fatalf("No base template in blog index file")
 	}
-	if !strings.Contains(content, "Index") {
+	if !strings.Contains(content, "Test Post") {
 		t.Fatalf("No post in blog index file")
 	}
 }
