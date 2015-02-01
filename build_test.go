@@ -63,18 +63,18 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 }
 
 func TestBuildBlogIndexPage(t *testing.T) {
-	t.SkipNow()
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
 	NewBlogBuilder(testDataDir).Build(output)
 
-	content, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
+	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
+	content := string(bytes)
 
-	if !strings.Contains(string(content), `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
+	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
 		t.Fatalf("No base template in blog index file")
 	}
-	if !strings.Contains(string(content), "Test Post") {
+	if !strings.Contains(content, "Index") {
 		t.Fatalf("No post in blog index file")
 	}
 }

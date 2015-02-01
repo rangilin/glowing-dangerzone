@@ -28,17 +28,22 @@ func (b BlogBuilder) Build(output string) error {
 	os.RemoveAll(output)
 	os.Mkdir(output, os.ModePerm)
 
-	err := b.compileTemplates()
-	if err != nil {
+	if err := b.compileTemplates(); err != nil {
 		return fmt.Errorf("Fail to compile templates due to %v", err)
 	}
 
 	for _, path := range b.getPostPaths() {
-		err := b.generatePost(path, output)
+		post := b.postParser.Parse(path)
+		err := b.generatePost(post, output)
 		if err != nil {
 			return fmt.Errorf("Fail to generate post due to %v", err)
 		}
 	}
+
+	if err := b.generateBlogIndex(output); err != nil {
+		return fmt.Errorf("Fail to generate blog index due to %v", err)
+	}
+
 	return nil
 }
 
@@ -66,8 +71,7 @@ func (b BlogBuilder) compileTemplates() error {
 	return nil
 }
 
-func (b BlogBuilder) generatePost(path string, output string) error {
-	post := b.postParser.Parse(path)
+func (b BlogBuilder) generatePost(post Post, output string) error {
 	postDir := filepath.Join(output, Prettify(post.Title()))
 
 	err := os.Mkdir(postDir, os.ModePerm)
@@ -86,6 +90,19 @@ func (b BlogBuilder) generatePost(path string, output string) error {
 	}
 
 	if err := b.templates["post"].Execute(file, data); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (b BlogBuilder) generateBlogIndex(output string) error {
+	index := filepath.Join(output, "index.html")
+	file, err := os.Create(index)
+	if err != nil {
+		return fmt.Errorf("Unable to create file %s", index)
+	}
+
+	if err := b.templates["index"].Execute(file, nil); err != nil {
 		return err
 	}
 	return nil
