@@ -51,13 +51,14 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 
 	NewBlogBuilder(testDataDir).Build(output)
 
-	content, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
+	bytes, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
+	content := string(bytes)
 
-	if !strings.Contains(string(content), `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
+	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
 		t.Fatalf("No base template in post file")
 	}
 
-	if !strings.Contains(string(content), "This is test post content") {
+	if !strings.Contains(content, "<p>This is test post content</p>") {
 		t.Fatalf("No post in post file")
 	}
 }
@@ -74,7 +75,7 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
 		t.Fatalf("No base template in blog index file")
 	}
-	if !strings.Contains(content, "Test Post") {
+	if !strings.Contains(content, "<a href=\"#\">Test Post</a>") {
 		t.Fatalf("No post in blog index file")
 	}
 }
