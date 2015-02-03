@@ -17,6 +17,11 @@ const BaseTemplateContent = `<html>
 // IndexTemplateContent is HTML for index page
 const IndexTemplateContent = `{{ define "content" }}
 <div>Index</div>
+<ul>
+  {{ range .Posts }}
+    <li><a href="">{{ .Title }}</a></li>
+  {{ end }}
+</ul>
 {{ end }}
 `
 
