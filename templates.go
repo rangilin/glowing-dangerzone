@@ -19,7 +19,7 @@ const IndexTemplateContent = `{{ define "content" }}
 <div>Index</div>
 <ul>
   {{ range .Posts }}
-    <li><a href="">{{ .Title }}</a></li>
+    <li><a href="{{ .Key }}">{{ .Title }}</a></li>
   {{ end }}
 </ul>
 {{ end }}
