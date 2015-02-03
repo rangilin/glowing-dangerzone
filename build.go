@@ -32,15 +32,17 @@ func (b BlogBuilder) Build(output string) error {
 		return fmt.Errorf("Fail to compile templates due to %v", err)
 	}
 
+	posts := []Post{}
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)
+		posts = append(posts, post)
 		err := b.generatePost(post, output)
 		if err != nil {
 			return fmt.Errorf("Fail to generate post due to %v", err)
 		}
 	}
 
-	if err := b.generateBlogIndex(output); err != nil {
+	if err := b.generateBlogIndex(posts, output); err != nil {
 		return fmt.Errorf("Fail to generate blog index due to %v", err)
 	}
 
@@ -85,7 +87,7 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 		return fmt.Errorf("Unable to create file %s", index)
 	}
 
-	data := map[string]string{
+	data := map[string]interface{}{
 		"Content": post.HtmlContent(),
 	}
 
@@ -95,14 +97,18 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 	return nil
 }
 
-func (b BlogBuilder) generateBlogIndex(output string) error {
+func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 	index := filepath.Join(output, "index.html")
 	file, err := os.Create(index)
 	if err != nil {
 		return fmt.Errorf("Unable to create file %s", index)
 	}
 
-	if err := b.templates["index"].Execute(file, nil); err != nil {
+	data := map[string]interface{}{
+		"Posts": posts,
+	}
+
+	if err := b.templates["index"].Execute(file, data); err != nil {
 		return err
 	}
 	return nil
