@@ -51,7 +51,4 @@ Then it will run a file server on `blog` folder.
 
 All configuration values should be stored as system environment variables, there are:
 
-| Name                   | Description                             | Required |
-|------------------------|-----------------------------------------|----------|
-| GD_GITHUB_ACCESS_TOKEN | Access token of github, it will be used | Yes      |
-|                        | when convert markdown to HTML           |          |
+**GD_GITHUB_ACCESS_TOKEN** : Required. Access token of github, it will be used when convert markdown to HTML
