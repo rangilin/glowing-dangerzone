@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 )
 
-func NewBlogBuilder(dir string) BlogBuilder {
-	return BlogBuilder{dir, NewPostParser(), map[string]*template.Template{}}
+func NewBlogBuilder(conf Configuration, dir string) BlogBuilder {
+	return BlogBuilder{dir, NewPostParser(conf), map[string]*template.Template{}}
 }
 
 // A BlogBuilder that generate static files from posts/layouts

@@ -5,7 +5,7 @@ import (
 )
 
 func TestGithubMarkdownConverter(t *testing.T) {
-	gmc := NewGithubMarkdownConverter()
+	gmc := NewGithubMarkdownConverter(getConfiguration())
 
 	html, err := gmc.Convert("Hello World")
 
@@ -17,5 +17,4 @@ func TestGithubMarkdownConverter(t *testing.T) {
 	if html != expect {
 		t.Fatalf("Expect html is %s, but got %q ", expect, html)
 	}
-
 }

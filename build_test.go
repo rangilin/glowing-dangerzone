@@ -12,7 +12,7 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 	dir := createTmpFolder(t)
 	output := filepath.Join(createTmpFolder(t), BuildDirName)
 
-	NewBlogBuilder(dir).Build(output)
+	NewBlogBuilder(getConfiguration(), dir).Build(output)
 
 	assertFilePathExist(t, output)
 }
@@ -25,7 +25,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	os.Mkdir(output, os.ModePerm)
 	os.Create(deleteme)
 
-	NewBlogBuilder(dir).Build(output)
+	NewBlogBuilder(getConfiguration(), dir).Build(output)
 
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
@@ -36,7 +36,7 @@ func TestBuildGeneratingNecessaryFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_files")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(testDataDir).Build(output)
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
 
 	postDir := filepath.Join(output, "test-post")
 	assertFilePathExist(t, postDir)
@@ -49,7 +49,7 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(testDataDir).Build(output)
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
 	content := string(bytes)
@@ -67,7 +67,7 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(testDataDir).Build(output)
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
 	content := string(bytes)

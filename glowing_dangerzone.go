@@ -30,12 +30,13 @@ func main() {
 	var err error
 
 	dir, _ := os.Getwd()
+	conf := getConfiguration()
 	cmd := getSubCommand()
 	switch cmd {
 	case "new":
 		err = NewBlogCreator(dir).Create()
 	case "build":
-		err = NewBlogBuilder(dir).Build(filepath.Join(dir, BuildDirName))
+		err = NewBlogBuilder(conf, dir).Build(filepath.Join(dir, BuildDirName))
 	case "post":
 		title := parseCreatePostTitle()
 		err = NewPostCreator(filepath.Join(dir, PostsDirName)).Create(title)

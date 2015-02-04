@@ -47,8 +47,8 @@ type PostParser struct {
 	converter MarkdownConverter
 }
 
-func NewPostParser() PostParser {
-	return PostParser{NewGithubMarkdownConverter()}
+func NewPostParser(conf Configuration) PostParser {
+	return PostParser{NewGithubMarkdownConverter(conf)}
 }
 
 // Parse will parse Post from specified post folder

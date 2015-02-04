@@ -18,10 +18,10 @@ type GithubMarkdownConverter struct {
 }
 
 // NewGithubMarkdownConverter create a GithubMarkdownConverter with configuration
-func NewGithubMarkdownConverter() GithubMarkdownConverter {
-	gmc := GithubMarkdownConverter{}
-	gmc.conf = getConfiguration()
-	return gmc
+func NewGithubMarkdownConverter(conf Configuration) GithubMarkdownConverter {
+	return GithubMarkdownConverter{
+		conf: conf,
+	}
 }
 
 // Convert convert markdown into HTML with Github api
