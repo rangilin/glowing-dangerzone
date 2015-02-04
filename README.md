@@ -49,6 +49,11 @@ Then it will run a file server on `blog` folder.
 
 ## Configuration ##
 
-For now, glowing-dangerzone use Github's Markdown API to parse your post files, in order to use the API, you need to create a file `config.json` and put your Github application token in it.
+All configuration values should be stored as system environment variables, there are:
 
-Check `config.json.template` for detail.
+|------------------------+-----------------------------------------+----------|
+| Name                   | Description                             | Required |
+|------------------------+-----------------------------------------+----------|
+| GD_GITHUB_ACCESS_TOKEN | Access token of github, it will be used | Yes      |
+|                        | when convert markdown to HTML           |          |
+|------------------------+-----------------------------------------+----------|
