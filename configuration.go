@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"os"
 )
 
@@ -13,16 +12,7 @@ type Configuration struct {
 
 // Read configuration from config.json file
 func getConfiguration() Configuration {
-	file, err := os.Open("config.json")
-	if err != nil {
-		panic("Unable to open configuration file : " + err.Error())
+	return Configuration{
+		GithubAccessToken: os.Getenv("GD_GITHUB_ACCESS_TOKEN"),
 	}
-
-	decoder := json.NewDecoder(file)
-
-	conf := Configuration{}
-	if err := decoder.Decode(&conf); err != nil {
-		panic("Unable to decode configuration : " + err.Error())
-	}
-	return conf
 }
