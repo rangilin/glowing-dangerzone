@@ -1,7 +1,7 @@
 glowing-dangerzone
 ==================
 
-Just my home made static blog generator, not completed yet.
+Just my home made static blog generator
 
 ## Usage ##
 
