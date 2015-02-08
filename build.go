@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 )
 
+// NewBlogBuilder create a BlogBuilder instance that will build blog from
+// with files in specified directory and configuration
 func NewBlogBuilder(conf Configuration, dir string) BlogBuilder {
 	return BlogBuilder{dir, NewPostParser(conf), map[string]*template.Template{}}
 }
@@ -14,7 +16,7 @@ func NewBlogBuilder(conf Configuration, dir string) BlogBuilder {
 // A BlogBuilder that generate static files from posts/layouts
 type BlogBuilder struct {
 	// where posts, layouts directory exist
-	dir string
+	blogDir string
 
 	// Parser that parse Post from post files
 	postParser PostParser
@@ -23,7 +25,8 @@ type BlogBuilder struct {
 	templates map[string]*template.Template
 }
 
-// Generate static files to specified directory
+// Build the blog, it will parse and copy post files into specified output
+// directory
 func (b BlogBuilder) Build(output string) error {
 	os.RemoveAll(output)
 	os.Mkdir(output, os.ModePerm)
@@ -51,21 +54,23 @@ func (b BlogBuilder) Build(output string) error {
 	return nil
 }
 
+// getPostPaths will return a list of post directories in the blog folder
 func (b BlogBuilder) getPostPaths() []string {
-	postDir := filepath.Join(b.dir, PostsDirName)
+	postDir := filepath.Join(b.blogDir, PostsDirName)
 	paths, _ := filepath.Glob(postDir + string(os.PathSeparator) + "*")
 	return paths
 }
 
+// compileTemplates compile all templates for later use
 func (b BlogBuilder) compileTemplates() error {
 	templates := map[string]string{
 		"index": IndexTemplateName,
 		"post":  PostTemplateName,
 	}
 
-	baseTemplatePath := filepath.Join(b.dir, LayoutsDirName, BaseTemplateName)
+	baseTemplatePath := filepath.Join(b.blogDir, LayoutsDirName, BaseTemplateName)
 	for name, filename := range templates {
-		templatePath := filepath.Join(b.dir, LayoutsDirName, filename)
+		templatePath := filepath.Join(b.blogDir, LayoutsDirName, filename)
 		template, err := template.ParseFiles(baseTemplatePath, templatePath)
 		if err != nil {
 			return fmt.Errorf("Fail to parse template %s due to %v", filename, err)
@@ -75,6 +80,8 @@ func (b BlogBuilder) compileTemplates() error {
 	return nil
 }
 
+// generatePost will generate files for specified post and put under specified
+// output directory
 func (b BlogBuilder) generatePost(post Post, output string) error {
 	if err := os.Mkdir(output, os.ModePerm); err != nil {
 		return err
@@ -100,6 +107,7 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 	return nil
 }
 
+// generateBlogIndex will generate blog index file under specified output path
 func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 	index := filepath.Join(output, "index.html")
 	file, err := os.Create(index)
@@ -117,6 +125,8 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 	return nil
 }
 
+// copyPostFiles will copy all files under post dir into output path, but
+// exclude post.md
 func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
 
 	walkFn := func(path string, info os.FileInfo, err error) error {
