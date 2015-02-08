@@ -8,12 +8,18 @@ import (
 	"strings"
 )
 
-// constant for directory name
+// constants for directory name
 const (
 	// name of directory contains build result
 	BuildDirName = "blog"
 	// name of directory contains user post files
 	PostsDirName = "posts"
+	// name of directory contains user post files
+	AssetsDirName = "assets"
+)
+
+// constants for file name
+const (
 	// name of post file
 	PostFileName = "post.md"
 	// name of directory contains template files

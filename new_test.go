@@ -18,8 +18,10 @@ func TestNew(t *testing.T) {
 
 	posts := filepath.Join(dir, PostsDirName)
 	layouts := filepath.Join(dir, LayoutsDirName)
+	assets := filepath.Join(dir, AssetsDirName)
 	assertFilePathExist(t, posts)
 	assertFilePathExist(t, layouts)
+	assertFilePathExist(t, assets)
 
 	templates := [...][2]string{
 		[2]string{"base.tmpl", BaseTemplateContent},
