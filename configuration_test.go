@@ -6,6 +6,8 @@ import (
 )
 
 func TestConfigurationIsReadFromEnvironment(t *testing.T) {
+	t.Parallel()
+
 	// restore environment later
 	token := os.Getenv("GD_GITHUB_ACCESS_TOKEN")
 	defer os.Setenv("GD_GITHUB_ACCESS_TOKEN", token)

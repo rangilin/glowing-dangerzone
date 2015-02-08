@@ -9,6 +9,8 @@ import (
 )
 
 func TestCreatePost(t *testing.T) {
+	t.Parallel()
+
 	title := "Folder's name"
 	date := time.Now().Format(ISO8601Date)
 	dir := createTmpFolder(t)
@@ -28,6 +30,8 @@ title: %s
 }
 
 func TestCreatePostWithDuplicatedTitle(t *testing.T) {
+	t.Parallel()
+
 	title := "duplicated"
 	dir := createTmpFolder(t)
 	postDir := filepath.Join(dir, "duplicated")
@@ -41,6 +45,8 @@ func TestCreatePostWithDuplicatedTitle(t *testing.T) {
 }
 
 func TestParsePost(t *testing.T) {
+	t.Parallel()
+
 	testPostDir := "testdata/post_test/test-post-parser/"
 	post := newTestPostParser().Parse(testPostDir)
 

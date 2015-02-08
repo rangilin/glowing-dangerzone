@@ -10,6 +10,8 @@ import (
 
 // New command should create layout in current directory
 func TestNew(t *testing.T) {
+	t.Parallel()
+
 	dir := createTmpFolder(t)
 
 	NewBlogCreator(dir).Create()
@@ -32,6 +34,8 @@ func TestNew(t *testing.T) {
 }
 
 func TestNewWhenCurrentFolderIsNotEmpty(t *testing.T) {
+	t.Parallel()
+
 	dir := createTmpFolder(t)
 	os.Mkdir(filepath.Join(dir, "_whatever"), os.ModePerm)
 

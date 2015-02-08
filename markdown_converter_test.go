@@ -5,6 +5,8 @@ import (
 )
 
 func TestGithubMarkdownConverter(t *testing.T) {
+	t.Parallel()
+
 	gmc := NewGithubMarkdownConverter(getConfiguration())
 
 	html, err := gmc.Convert("Hello World")

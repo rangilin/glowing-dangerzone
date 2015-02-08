@@ -6,6 +6,8 @@ import (
 )
 
 func TestIsDirEmpty(t *testing.T) {
+	t.Parallel()
+
 	emptyDir := createTmpFolder(t)
 	if isEmpty, _ := IsDirEmpty(emptyDir); !isEmpty {
 		t.Fatalf("Dir %s is empty, but return false", emptyDir)
@@ -19,6 +21,8 @@ func TestIsDirEmpty(t *testing.T) {
 }
 
 func TestPrettify(t *testing.T) {
+	t.Parallel()
+
 	if result := Prettify("test space"); result != "test-space" {
 		t.Fatalf("Prettify should change space to dash, but got %s", result)
 	}

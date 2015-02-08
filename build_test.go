@@ -9,6 +9,8 @@ import (
 )
 
 func TestBuildWillCreateBlogFolder(t *testing.T) {
+	t.Parallel()
+
 	dir := createTmpFolder(t)
 	output := filepath.Join(createTmpFolder(t), BuildDirName)
 
@@ -18,6 +20,8 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 }
 
 func TestCleanUpBeforeBuild(t *testing.T) {
+	t.Parallel()
+
 	dir := createTmpFolder(t)
 	output := filepath.Join(dir, "blog")
 
@@ -33,6 +37,8 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 }
 
 func TestBuildGeneratingNecessaryFiles(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_files")
 	output := createTmpFolder(t)
 
@@ -46,6 +52,8 @@ func TestBuildGeneratingNecessaryFiles(t *testing.T) {
 }
 
 func TestBuildGeneratePostFiles(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
@@ -64,6 +72,8 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 }
 
 func TestBuildShouldCopyPostFiles(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
@@ -76,6 +86,8 @@ func TestBuildShouldCopyPostFiles(t *testing.T) {
 }
 
 func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
@@ -88,6 +100,8 @@ func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
 }
 
 func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
@@ -100,6 +114,8 @@ func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
 }
 
 func TestBuildBlogIndexPage(t *testing.T) {
+	t.Parallel()
+
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
