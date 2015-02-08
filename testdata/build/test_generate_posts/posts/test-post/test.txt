@@ -1,0 +1,1 @@
+all file under post folder should be copied in the built result

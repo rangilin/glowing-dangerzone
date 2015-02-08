@@ -63,6 +63,18 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	}
 }
 
+func TestBuildShouldCopyAllFilesUnderPostFolder(t *testing.T) {
+	testDataDir := testDataPath("build", "test_generate_posts")
+	output := createTmpFolder(t)
+
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+
+	path := filepath.Join(output, "test-post", "test.txt")
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		t.Fatalf("%s should be copied to the built result, but not.", path)
+	}
+}
+
 func TestBuildBlogIndexPage(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
