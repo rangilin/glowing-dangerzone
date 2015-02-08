@@ -43,6 +43,7 @@ func TestCreatePostWithDuplicatedTitle(t *testing.T) {
 func TestParsePost(t *testing.T) {
 	testPostDir := "testdata/post_test/test-post-parser/"
 	post := newTestPostParser().Parse(testPostDir)
+
 	title := "This is a test"
 	if post.Title() != title {
 		t.Fatalf("Expect post title [%s], but got [%s]", title, post.Title())
@@ -51,6 +52,10 @@ func TestParsePost(t *testing.T) {
 	date := "2015-01-08"
 	if post.Date() != date {
 		t.Fatalf("Expect post date [%s], but got [%s]", date, post.Date())
+	}
+
+	if post.Folder() != testPostDir {
+		t.Fatalf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Folder())
 	}
 
 	content := "content\n"
