@@ -35,8 +35,13 @@ func (b BlogBuilder) Build(output string) error {
 		return fmt.Errorf("Fail to compile templates due to %v", err)
 	}
 
+	paths, err := b.getPostPaths()
+	if err != nil {
+		return err
+	}
+
 	posts := []Post{}
-	for _, path := range b.getPostPaths() {
+	for _, path := range paths {
 		post := b.postParser.Parse(path)
 		posts = append(posts, post)
 
@@ -55,10 +60,23 @@ func (b BlogBuilder) Build(output string) error {
 }
 
 // getPostPaths will return a list of post directories in the blog folder
-func (b BlogBuilder) getPostPaths() []string {
-	postDir := filepath.Join(b.blogDir, PostsDirName)
-	paths, _ := filepath.Glob(postDir + string(os.PathSeparator) + "*")
-	return paths
+func (b BlogBuilder) getPostPaths() ([]string, error) {
+	paths, err := filepath.Glob(filepath.Join(b.blogDir, PostsDirName, "*"))
+	if err != nil {
+		return nil, err
+	}
+
+	dirs := []string{}
+	for _, path := range paths {
+		info, err := os.Stat(path)
+		if err != nil {
+			return nil, err
+		}
+		if info.IsDir() {
+			dirs = append(dirs, path)
+		}
+	}
+	return dirs, nil
 }
 
 // compileTemplates compile all templates for later use
