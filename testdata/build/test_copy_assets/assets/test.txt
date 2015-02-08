@@ -1,0 +1,1 @@
+all assets file should be copied

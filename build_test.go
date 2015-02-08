@@ -131,3 +131,23 @@ func TestBuildBlogIndexPage(t *testing.T) {
 		t.Fatalf("No post in blog index file")
 	}
 }
+
+func TestAssetsWillBeCopied(t *testing.T) {
+	t.Parallel()
+
+	testDataDir := testDataPath("build", "test_copy_assets")
+	output := createTmpFolder(t)
+
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+
+	paths := []string{
+		filepath.Join(output, "assets"),
+		filepath.Join(output, "assets", "test.txt"),
+		filepath.Join(output, "assets", "subdir", "test.txt"),
+	}
+	for _, path := range paths {
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			t.Fatalf("%s should exist in build result but not", path)
+		}
+	}
+}
