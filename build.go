@@ -117,6 +117,8 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 
 	data := map[string]interface{}{
 		"Content": template.HTML(post.HtmlContent()),
+		"Title":   post.Title(),
+		"Date":    post.Date(),
 	}
 
 	if err := b.templates["post"].Execute(file, data); err != nil {
