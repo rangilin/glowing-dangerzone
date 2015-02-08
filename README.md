@@ -16,6 +16,7 @@ This will generate two folders :
 
     layouts : place for HTML layout files
     posts : place for your posts
+    assets : place for your css, js, the whole directory will be copied to the build directory
 
 ### Create post ###
 
