@@ -36,7 +36,9 @@ func (b BlogBuilder) Build(output string) error {
 	for _, path := range b.getPostPaths() {
 		post := b.postParser.Parse(path)
 		posts = append(posts, post)
-		err := b.generatePost(post, output)
+
+		postOutputDir := filepath.Join(output, Prettify(post.Title()))
+		err := b.generatePost(post, postOutputDir)
 		if err != nil {
 			return fmt.Errorf("Fail to generate post due to %v", err)
 		}
@@ -74,14 +76,15 @@ func (b BlogBuilder) compileTemplates() error {
 }
 
 func (b BlogBuilder) generatePost(post Post, output string) error {
-	postDir := filepath.Join(output, Prettify(post.Title()))
-
-	err := os.Mkdir(postDir, os.ModePerm)
-	if err != nil {
-		return fmt.Errorf("Unable to create post folder %s", postDir)
+	if err := os.Mkdir(output, os.ModePerm); err != nil {
+		return err
 	}
 
-	index := filepath.Join(postDir, "index.html")
+	if err := b.copyPostFiles(post.Folder(), output); err != nil {
+		return err
+	}
+
+	index := filepath.Join(output, "index.html")
 	file, err := os.Create(index)
 	if err != nil {
 		return fmt.Errorf("Unable to create file %s", index)
@@ -112,4 +115,25 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 		return err
 	}
 	return nil
+}
+
+func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
+
+	walkFn := func(path string, info os.FileInfo, err error) error {
+		if path == postDir {
+			return nil
+		}
+
+		rel, err := filepath.Rel(postDir, path)
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return os.Mkdir(filepath.Join(output, rel), os.ModePerm)
+		}
+		return CopyFile(path, filepath.Join(output, rel))
+	}
+
+	return filepath.Walk(postDir, walkFn)
 }

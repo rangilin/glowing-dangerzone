@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -46,4 +47,16 @@ func Prettify(str string) string {
 		}
 	}
 	return strings.Join(chars, "-")
+}
+
+func CopyFile(source string, destination string) error {
+	content, err := ioutil.ReadFile(source)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(destination, content, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	return nil
 }
