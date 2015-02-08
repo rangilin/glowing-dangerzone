@@ -120,7 +120,8 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
 
 	walkFn := func(path string, info os.FileInfo, err error) error {
-		if path == postDir {
+		postFilePath := filepath.Join(postDir, PostFileName)
+		if path == postDir || path == postFilePath {
 			return nil
 		}
 

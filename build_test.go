@@ -63,7 +63,7 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	}
 }
 
-func TestBuildShouldCopyAllFilesUnderPostFolder(t *testing.T) {
+func TestBuildShouldCopyPostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
@@ -72,6 +72,30 @@ func TestBuildShouldCopyAllFilesUnderPostFolder(t *testing.T) {
 	path := filepath.Join(output, "test-post", "test.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		t.Fatalf("%s should be copied to the built result, but not.", path)
+	}
+}
+
+func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
+	testDataDir := testDataPath("build", "test_generate_posts")
+	output := createTmpFolder(t)
+
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+
+	path := filepath.Join(output, "test-post", "test", "test.txt")
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		t.Fatalf("%s should be copied to the built result, but not.", path)
+	}
+}
+
+func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
+	testDataDir := testDataPath("build", "test_generate_posts")
+	output := createTmpFolder(t)
+
+	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+
+	path := filepath.Join(output, "test-post", "post.md")
+	if _, err := os.Stat(path); !os.IsNotExist(err) {
+		t.Fatalf("%s should not be copied to the built result", path)
 	}
 }
 
