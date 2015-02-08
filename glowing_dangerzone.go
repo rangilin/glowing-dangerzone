@@ -47,7 +47,7 @@ func main() {
 	}
 
 	if err != nil {
-		log.Fatal("Errors :", err)
+		log.Fatal("Errors : ", err)
 	}
 }
 
