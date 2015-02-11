@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -27,11 +28,16 @@ func TestCreatePost(t *testing.T) {
 		t.Fatalf("Post file %s should be created, but not", postFile)
 	}
 
-	assertFileContent(t, postFile, fmt.Sprintf(`---
+	expectContent := fmt.Sprintf(`---
 date: %s
 title: %s
 ---
-`, date, title))
+`, date, title)
+	bytes, _ := ioutil.ReadFile(postFile)
+	actualContent := string(bytes)
+	if actualContent != expectContent {
+		t.Fatalf("Generated post file content is wrong, expect %s, but got %s ", expectContent, actualContent)
+	}
 }
 
 func TestCreatePostWithDuplicatedTitle(t *testing.T) {

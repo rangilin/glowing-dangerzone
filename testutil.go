@@ -8,18 +8,6 @@ import (
 	"testing"
 )
 
-// assertFileContent assert content of specified file
-func assertFileContent(t *testing.T, path string, expect string) {
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		t.Fatalf("Unable to read file %s", path)
-	}
-
-	if expect != string(content) {
-		t.Fatalf("Expect file be \n%s\n, but got \n%s\n", expect, content)
-	}
-}
-
 // assertFileContains assert whether specified file contains specified string
 func assertFileContains(t *testing.T, path string, substr string) {
 	content, err := ioutil.ReadFile(path)
