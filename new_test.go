@@ -2,6 +2,7 @@ package main
 
 // -------------------------------------------------- tests for 'new' command
 import (
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -38,9 +39,14 @@ func TestNew(t *testing.T) {
 		path := filepath.Join(layouts, template[0])
 
 		if _, err := os.Stat(path); os.IsNotExist(err) {
-			t.Fatalf("Template %s should be created at %s, but not", path, template[0])
+			t.Fatalf("Template file %s should be created at %s, but not", path, template[0])
 		}
-		assertFileContains(t, path, template[1])
+
+		content, _ := ioutil.ReadFile(path)
+		if !strings.Contains(string(content), template[1]) {
+			t.Fatalf("Template %s should contains \n%s\n, but not, content is \n%s\n",
+				template[0], template[1], string(content))
+		}
 	}
 }
 

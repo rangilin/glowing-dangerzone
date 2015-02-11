@@ -4,23 +4,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 )
-
-// assertFileContains assert whether specified file contains specified string
-func assertFileContains(t *testing.T, path string, substr string) {
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		t.Fatalf("Unable to read file %s", path)
-	}
-
-	if !strings.Contains(string(content), substr) {
-		t.Fatalf("Expect file content contains \n%s\n, but not, content is \n%s\n",
-			substr,
-			content)
-	}
-}
 
 // create a temporary folder for testing
 func createTmpFolder(t *testing.T) string {
