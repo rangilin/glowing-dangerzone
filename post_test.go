@@ -20,8 +20,13 @@ func TestCreatePost(t *testing.T) {
 	postDir := filepath.Join(dir, "folders-name")
 	postFile := filepath.Join(postDir, "post.md")
 
-	assertFilePathExist(t, postDir)
-	assertFilePathExist(t, postFile)
+	if _, err := os.Stat(postDir); os.IsNotExist(err) {
+		t.Fatalf("Post folder %s should be created, but not", postDir)
+	}
+	if _, err := os.Stat(postFile); os.IsNotExist(err) {
+		t.Fatalf("Post file %s should be created, but not", postFile)
+	}
+
 	assertFileContent(t, postFile, fmt.Sprintf(`---
 date: %s
 title: %s

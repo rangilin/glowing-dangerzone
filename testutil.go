@@ -8,13 +8,6 @@ import (
 	"testing"
 )
 
-// assertFilePathExist assert specified path entry is exist.
-func assertFilePathExist(t *testing.T, path string) {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		t.Fatalf("%s should exist, but not.", path)
-	}
-}
-
 // assertFileContent assert content of specified file
 func assertFileContent(t *testing.T, path string, expect string) {
 	content, err := ioutil.ReadFile(path)

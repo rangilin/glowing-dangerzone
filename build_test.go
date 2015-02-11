@@ -16,7 +16,9 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 
 	NewBlogBuilder(getConfiguration(), dir).Build(output)
 
-	assertFilePathExist(t, output)
+	if _, err := os.Stat(output); os.IsNotExist(err) {
+		t.Fatalf("Blog folder should be created at %s, but not.", output)
+	}
 }
 
 func TestCleanUpBeforeBuild(t *testing.T) {
@@ -45,10 +47,14 @@ func TestBuildGeneratingNecessaryFiles(t *testing.T) {
 	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
 
 	postDir := filepath.Join(output, "test-post")
-	assertFilePathExist(t, postDir)
+	if _, err := os.Stat(postDir); os.IsNotExist(err) {
+		t.Fatalf("Post folder should be created at %s, but not", postDir)
+	}
 
 	postIndex := filepath.Join(postDir, "index.html")
-	assertFilePathExist(t, postIndex)
+	if _, err := os.Stat(postIndex); os.IsNotExist(err) {
+		t.Fatalf("Post index file should be created at %s, but not", postIndex)
+	}
 }
 
 func TestBuildGeneratePostFiles(t *testing.T) {

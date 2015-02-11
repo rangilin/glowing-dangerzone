@@ -17,11 +17,17 @@ func TestNew(t *testing.T) {
 	NewBlogCreator(dir).Create()
 
 	posts := filepath.Join(dir, PostsDirName)
+	if _, err := os.Stat(posts); os.IsNotExist(err) {
+		t.Fatalf("Posts dir should be created at %s, but not", posts)
+	}
 	layouts := filepath.Join(dir, LayoutsDirName)
+	if _, err := os.Stat(layouts); os.IsNotExist(err) {
+		t.Fatalf("Layouts dir should be created at %s, but not", layouts)
+	}
 	assets := filepath.Join(dir, AssetsDirName)
-	assertFilePathExist(t, posts)
-	assertFilePathExist(t, layouts)
-	assertFilePathExist(t, assets)
+	if _, err := os.Stat(assets); os.IsNotExist(err) {
+		t.Fatalf("Assets dir should be created at %s, but not", assets)
+	}
 
 	templates := [...][2]string{
 		[2]string{"base.tmpl", BaseTemplateContent},
@@ -30,7 +36,10 @@ func TestNew(t *testing.T) {
 	}
 	for _, template := range templates {
 		path := filepath.Join(layouts, template[0])
-		assertFilePathExist(t, path)
+
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			t.Fatalf("Template %s should be created at %s, but not", path, template[0])
+		}
 		assertFileContains(t, path, template[1])
 	}
 }
