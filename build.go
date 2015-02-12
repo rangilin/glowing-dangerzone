@@ -56,8 +56,7 @@ func (b BlogBuilder) Build(output string) error {
 		return fmt.Errorf("Fail to generate blog index due to %v", err)
 	}
 
-	assetsOutput := filepath.Join(output, AssetsDirName)
-	if err := b.copyAssets(assetsOutput); err != nil {
+	if err := b.copyAssets(output); err != nil {
 		return fmt.Errorf("Fail to copy asset files due to %v ", err)
 	}
 	return nil
@@ -176,8 +175,11 @@ func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
 // copyAssets copy all files in assets to specified output directory
 func (b BlogBuilder) copyAssets(output string) error {
 	assetsDir := filepath.Join(b.blogDir, AssetsDirName)
-
 	walkFn := func(path string, info os.FileInfo, err error) error {
+		if path == assetsDir {
+			return nil
+		}
+
 		rel, err := filepath.Rel(assetsDir, path)
 		if err != nil {
 			return err

@@ -144,12 +144,14 @@ func TestAssetsWillBeCopied(t *testing.T) {
 	testDataDir := testDataPath("build", "test_copy_assets")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	paths := []string{
-		filepath.Join(output, "assets"),
-		filepath.Join(output, "assets", "test.txt"),
-		filepath.Join(output, "assets", "subdir", "test.txt"),
+		filepath.Join(output, "test.txt"),
+		filepath.Join(output, "subdir", "test.txt"),
 	}
 	for _, path := range paths {
 		if _, err := os.Stat(path); os.IsNotExist(err) {
