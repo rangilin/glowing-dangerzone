@@ -18,9 +18,9 @@ const BaseTemplateContent = `<html>
 const IndexTemplateContent = `{{ define "content" }}
 <div>Index</div>
 <ul>
-  {{ range .Posts }}
-    <li><a href="{{ .Key }}">{{ .Title }}</a></li>
-  {{ end }}
+{{ range .Posts }}
+  <li><a href="{{ .Key }}">{{ .Title }}</a></li>
+{{ end }}
 </ul>
 {{ end }}
 `

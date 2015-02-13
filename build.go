@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
+	"sort"
 )
 
 // NewBlogBuilder create a BlogBuilder instance that will build blog from
@@ -51,6 +52,8 @@ func (b BlogBuilder) Build(output string) error {
 			return fmt.Errorf("Fail to generate post due to %v", err)
 		}
 	}
+
+	sort.Sort(PostsByDateDesc{posts})
 
 	if err := b.generateBlogIndex(posts, output); err != nil {
 		return fmt.Errorf("Fail to generate blog index due to %v", err)

@@ -159,3 +159,27 @@ func TestAssetsWillBeCopied(t *testing.T) {
 		}
 	}
 }
+
+func TestGeneratedPostsWillBeSortedByDateInBlogIndex(t *testing.T) {
+	t.Parallel()
+
+	testDataDir := testDataPath("build", "test_posts_sorted_by_date")
+	output := createTmpFolder(t)
+
+	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
+	content := string(bytes)
+
+	expectExcerpt := `
+  <li><a href="2-second-post">2-second-post</a></li>
+
+  <li><a href="1-first-post">1-first-post</a></li>
+`
+	if !strings.Contains(content, expectExcerpt) {
+		t.Fatalf("Posts in blog index page should be sorted by date in descending")
+	}
+}

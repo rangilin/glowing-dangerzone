@@ -130,6 +130,14 @@ func (p Post) Date() string {
 	return p.variables["date"]
 }
 
+func (p Post) Time() time.Time {
+	t, err := time.Parse("2006-01-02", p.Date())
+	if err != nil {
+		panic(fmt.Sprintf("Post %s has an invalid date", p.Title()))
+	}
+	return t
+}
+
 func (p Post) Content() string {
 	return p.content
 }
@@ -144,4 +152,23 @@ func (p Post) Key() string {
 
 func (p Post) Folder() string {
 	return p.folder
+}
+
+// Posts represented an array of Post
+type Posts []Post
+
+func (p Posts) Len() int {
+	return len(p)
+}
+
+func (p Posts) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
+
+type PostsByDateDesc struct {
+	Posts
+}
+
+func (s PostsByDateDesc) Less(i, j int) bool {
+	return !s.Posts[i].Time().Before(s.Posts[j].Time())
 }
