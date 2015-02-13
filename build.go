@@ -11,7 +11,7 @@ import (
 // NewBlogBuilder create a BlogBuilder instance that will build blog from
 // with files in specified directory and configuration
 func NewBlogBuilder(conf Configuration, dir string) BlogBuilder {
-	return BlogBuilder{dir, NewPostParser(conf), map[string]*template.Template{}}
+	return BlogBuilder{dir, NewPostParser(conf), map[string]*template.Template{}, conf}
 }
 
 // A BlogBuilder that generate static files from posts/layouts
@@ -24,6 +24,9 @@ type BlogBuilder struct {
 
 	// map contains compiled template for later use
 	templates map[string]*template.Template
+
+	// configuration
+	conf Configuration
 }
 
 // Build the blog, it will parse and copy post files into specified output

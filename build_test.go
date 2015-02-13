@@ -183,3 +183,29 @@ func TestGeneratedPostsWillBeSortedByDateInBlogIndex(t *testing.T) {
 		t.Fatalf("Posts in blog index page should be sorted by date in descending")
 	}
 }
+
+// Skipped
+func TestConfigurationWillBePutIntoAllTemplates(t *testing.T) {
+	t.SkipNow()
+	t.Parallel()
+
+	// restore environment later
+	token := os.Getenv("GD_GITHUB_ACCESS_TOKEN")
+	defer os.Setenv("GD_GITHUB_ACCESS_TOKEN", token)
+	os.Setenv("GD_GITHUB_ACCESS_TOKEN", "whatever")
+
+	testDataDir := testDataPath("build", "test_template_data")
+	output := createTmpFolder(t)
+
+	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
+	content := string(bytes)
+
+	if !strings.Contains(content, "<span>whatever</span>") {
+		t.Fatalf("Configuration should be passed in template, but not")
+	}
+}
