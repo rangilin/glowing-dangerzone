@@ -42,7 +42,8 @@ func main() {
 	case "new":
 		err = NewBlogCreator(dir).Create()
 	case "build":
-		err = NewBlogBuilder(conf, dir).Build(filepath.Join(dir, BuildDirName))
+		postParser := NewPostParser(conf)
+		err = NewBlogBuilder(postParser, conf, dir).Build(filepath.Join(dir, BuildDirName))
 	case "post":
 		title := parseCreatePostTitle()
 		err = NewPostCreator(filepath.Join(dir, PostsDirName)).Create(title)

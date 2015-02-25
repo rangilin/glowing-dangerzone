@@ -10,8 +10,8 @@ import (
 
 // NewBlogBuilder create a BlogBuilder instance that will build blog from
 // with files in specified directory and configuration
-func NewBlogBuilder(conf Configuration, dir string) BlogBuilder {
-	return BlogBuilder{dir, NewPostParser(conf), map[string]*template.Template{}, conf}
+func NewBlogBuilder(parser PostParser, conf Configuration, dir string) BlogBuilder {
+	return BlogBuilder{dir, parser, map[string]*template.Template{}, conf}
 }
 
 // A BlogBuilder that generate static files from posts/layouts

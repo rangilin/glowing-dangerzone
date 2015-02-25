@@ -14,7 +14,7 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 	dir := createTmpFolder(t)
 	output := filepath.Join(createTmpFolder(t), BuildDirName)
 
-	NewBlogBuilder(getConfiguration(), dir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
 
 	if _, err := os.Stat(output); os.IsNotExist(err) {
 		t.Fatalf("Blog folder should be created at %s, but not.", output)
@@ -31,7 +31,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	os.Mkdir(output, os.ModePerm)
 	os.Create(deleteme)
 
-	NewBlogBuilder(getConfiguration(), dir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
 
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
@@ -44,7 +44,7 @@ func TestBuildGeneratingNecessaryFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_files")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	postDir := filepath.Join(output, "test-post")
 	if _, err := os.Stat(postDir); os.IsNotExist(err) {
@@ -63,7 +63,7 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
 	content := string(bytes)
@@ -72,7 +72,7 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 		t.Fatalf("No base template in post file")
 	}
 
-	if !strings.Contains(content, "<p>This is test post content</p>") {
+	if !strings.Contains(content, "This is test post content") {
 		t.Fatalf("No post in post file")
 	}
 }
@@ -83,7 +83,7 @@ func TestBuildShouldCopyPostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	path := filepath.Join(output, "test-post", "test.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -97,7 +97,7 @@ func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	path := filepath.Join(output, "test-post", "test", "test.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -111,7 +111,7 @@ func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	path := filepath.Join(output, "test-post", "post.md")
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
@@ -125,7 +125,7 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
 	content := string(bytes)
@@ -144,7 +144,7 @@ func TestAssetsWillBeCopied(t *testing.T) {
 	testDataDir := testDataPath("build", "test_copy_assets")
 	output := createTmpFolder(t)
 
-	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -166,7 +166,7 @@ func TestGeneratedPostsWillBeSortedByDateInBlogIndex(t *testing.T) {
 	testDataDir := testDataPath("build", "test_posts_sorted_by_date")
 	output := createTmpFolder(t)
 
-	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -197,7 +197,7 @@ func TestConfigurationWillBePutIntoAllTemplates(t *testing.T) {
 	testDataDir := testDataPath("build", "test_template_data")
 	output := createTmpFolder(t)
 
-	err := NewBlogBuilder(getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
 	if err != nil {
 		t.Fatal(err)
 	}
