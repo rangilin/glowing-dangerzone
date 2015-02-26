@@ -146,6 +146,7 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 
 	data := map[string]interface{}{
 		"Posts": posts,
+		"Conf":  b.conf,
 	}
 
 	if err := b.templates["index"].Execute(file, data); err != nil {

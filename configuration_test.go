@@ -6,7 +6,7 @@ import (
 )
 
 func TestConfigurationIsReadFromEnvironment(t *testing.T) {
-	t.Parallel()
+	// Should not run in parallel since we change environment variable
 
 	// restore environment later
 	token := os.Getenv("GD_GITHUB_ACCESS_TOKEN")
@@ -18,5 +18,12 @@ func TestConfigurationIsReadFromEnvironment(t *testing.T) {
 
 	if conf.GithubAccessToken != "whatever" {
 		t.Fatalf("Configuration should read from environment, but not")
+	}
+}
+
+func fakeConfiguration() Configuration {
+	return Configuration{
+		GithubAccessToken: "GithubAccessToken",
+		BaseUrl:           "BaseUrl",
 	}
 }

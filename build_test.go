@@ -124,7 +124,7 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
-	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), testDataDir).Build(output)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -137,10 +137,13 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	bytes, _ := ioutil.ReadFile(index)
 	content := string(bytes)
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
-		t.Fatalf("Blog index file should be generated with base template, but not")
+		t.Errorf("Blog index file should be generated with base template, but not")
 	}
 	if !strings.Contains(content, "<a href=\"#\">Test Post</a>") {
-		t.Fatalf("No post in blog index file")
+		t.Errorf("Blog index file should have posts data available, but not")
+	}
+	if !strings.Contains(content, "GithubAccessToken") {
+		t.Errorf("Blog index file should have configuration data available, but not")
 	}
 }
 
@@ -211,7 +214,7 @@ func TestConfigurationWillBePutIntoAllTemplates(t *testing.T) {
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
 	content := string(bytes)
 
-	if !strings.Contains(content, "<span>whatever</span>") {
+	if !strings.Contains(content, "whatever") {
 		t.Fatalf("Configuration should be passed in template, but not")
 	}
 }
