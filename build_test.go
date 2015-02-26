@@ -8,43 +8,43 @@ import (
 	"testing"
 )
 
-func TestBuildWillCreateBlogFolder(t *testing.T) {
+func TestCreateBlogFolder(t *testing.T) {
 	t.Parallel()
 
-	dir := testDataPath("build", "test_generate_files")
-	output := filepath.Join(createTmpFolder(t), BuildDirName)
+	blogFileDir := testDataPath("build", "test_generate_files")
+	outputDir := filepath.Join(createTmpFolder(t), BuildDirName)
 
-	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), blogFileDir).Build(outputDir)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if _, err := os.Stat(output); os.IsNotExist(err) {
-		t.Fatalf("Blog folder should be created at %s, but not.", output)
+	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+		t.Fatalf("A folder call 'blog' should be created at %s after build, but not.", outputDir)
 	}
 }
 
 func TestCleanUpBeforeBuild(t *testing.T) {
 	t.Parallel()
 
-	dir := testDataPath("build", "test_generate_files")
-	output := filepath.Join(createTmpFolder(t), BuildDirName)
+	blogFileDir := testDataPath("build", "test_generate_files")
+	outputDir := filepath.Join(createTmpFolder(t), BuildDirName)
 
-	deleteme := filepath.Join(output, "delete_me")
-	os.Mkdir(output, os.ModePerm)
+	deleteme := filepath.Join(outputDir, "delete_me")
+	os.Mkdir(outputDir, os.ModePerm)
 	os.Create(deleteme)
 
-	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), blogFileDir).Build(outputDir)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
-		t.Fatalf("Should delete exist blog folder before build")
+		t.Fatalf("Exist blog folder should be clean up before build, but not")
 	}
 }
 
-func TestBuildGeneratingNecessaryFiles(t *testing.T) {
+func TestGeneratingNecessaryFiles(t *testing.T) {
 	t.Parallel()
 
 	testDataDir := testDataPath("build", "test_generate_files")
