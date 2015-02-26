@@ -158,8 +158,9 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 // exclude post.md
 func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
 
+	postFilePath := filepath.Join(postDir, PostFileName)
+
 	walkFn := func(path string, info os.FileInfo, err error) error {
-		postFilePath := filepath.Join(postDir, PostFileName)
 		if path == postDir || path == postFilePath {
 			return nil
 		}
