@@ -44,28 +44,6 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	}
 }
 
-func TestGeneratingNecessaryFiles(t *testing.T) {
-	t.Parallel()
-
-	testDataDir := testDataPath("build", "test_generate_files")
-	output := createTmpFolder(t)
-
-	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	postDir := filepath.Join(output, "test-post")
-	if _, err := os.Stat(postDir); os.IsNotExist(err) {
-		t.Fatalf("Post folder should be created at %s, but not", postDir)
-	}
-
-	postIndex := filepath.Join(postDir, "index.html")
-	if _, err := os.Stat(postIndex); os.IsNotExist(err) {
-		t.Fatalf("Post index file should be created at %s, but not", postIndex)
-	}
-}
-
 func TestBuildGeneratePostFiles(t *testing.T) {
 	t.Parallel()
 
@@ -151,11 +129,15 @@ func TestBuildBlogIndexPage(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
-	content := string(bytes)
+	index := filepath.Join(output, "index.html")
+	if _, err := os.Stat(index); os.IsNotExist(err) {
+		t.Fatalf("Blog index file should be created at %s, but not", index)
+	}
 
+	bytes, _ := ioutil.ReadFile(index)
+	content := string(bytes)
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
-		t.Fatalf("No base template in blog index file")
+		t.Fatalf("Blog index file should be generated with base template, but not")
 	}
 	if !strings.Contains(content, "<a href=\"#\">Test Post</a>") {
 		t.Fatalf("No post in blog index file")
