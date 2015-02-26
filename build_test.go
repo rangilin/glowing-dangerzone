@@ -78,44 +78,21 @@ func TestBuildShouldCopyPostFiles(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	path := filepath.Join(output, "test-post", "test.txt")
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		t.Fatalf("%s should be copied to the built result, but not.", path)
-	}
-}
-
-func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
-	t.Parallel()
-
-	testDataDir := testDataPath("build", "test_generate_posts")
-	output := createTmpFolder(t)
-
-	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), testDataDir).Build(output)
-	if err != nil {
-		t.Fatal(err)
+	file := filepath.Join(output, "test-post", "test.txt")
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		t.Errorf("File in post folder should be copied to build result")
 	}
 
-	path := filepath.Join(output, "test-post", "test", "test.txt")
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		t.Fatalf("%s should be copied to the built result, but not.", path)
-	}
-}
-
-func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
-	t.Parallel()
-
-	testDataDir := testDataPath("build", "test_generate_posts")
-	output := createTmpFolder(t)
-
-	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), testDataDir).Build(output)
-	if err != nil {
-		t.Fatal(err)
+	fileInSubDir := filepath.Join(output, "test-post", "test", "test.txt")
+	if _, err := os.Stat(fileInSubDir); os.IsNotExist(err) {
+		t.Errorf("File in sub folder of post folder should be copied to the build result")
 	}
 
-	path := filepath.Join(output, "test-post", "post.md")
-	if _, err := os.Stat(path); !os.IsNotExist(err) {
-		t.Fatalf("%s should not be copied to the built result", path)
+	markdown := filepath.Join(output, "test-post", "post.md")
+	if _, err := os.Stat(markdown); !os.IsNotExist(err) {
+		t.Errorf("Post markdown file should not be copied to the built result")
 	}
+
 }
 
 func TestBuildBlogIndexPage(t *testing.T) {
@@ -190,31 +167,5 @@ func TestGeneratedPostsWillBeSortedByDateInBlogIndex(t *testing.T) {
 `
 	if !strings.Contains(content, expectExcerpt) {
 		t.Fatalf("Posts in blog index page should be sorted by date in descending")
-	}
-}
-
-// Skipped
-func TestConfigurationWillBePutIntoAllTemplates(t *testing.T) {
-	t.SkipNow()
-	t.Parallel()
-
-	// restore environment later
-	token := os.Getenv("GD_GITHUB_ACCESS_TOKEN")
-	defer os.Setenv("GD_GITHUB_ACCESS_TOKEN", token)
-	os.Setenv("GD_GITHUB_ACCESS_TOKEN", "whatever")
-
-	testDataDir := testDataPath("build", "test_template_data")
-	output := createTmpFolder(t)
-
-	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), testDataDir).Build(output)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
-	content := string(bytes)
-
-	if !strings.Contains(content, "whatever") {
-		t.Fatalf("Configuration should be passed in template, but not")
 	}
 }
