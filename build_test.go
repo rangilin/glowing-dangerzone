@@ -20,7 +20,7 @@ func TestCreateBlogFolder(t *testing.T) {
 	}
 
 	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
-		t.Fatalf("A folder call 'blog' should be created at %s after build, but not.", outputDir)
+		t.Fatalf("A folder call 'blog' should be created at %s after build.", outputDir)
 	}
 }
 
@@ -40,7 +40,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	}
 
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
-		t.Fatalf("Exist blog folder should be clean up before build, but not")
+		t.Fatalf("Exist blog folder should be clean up before build")
 	}
 }
 
@@ -108,19 +108,19 @@ func TestBuildBlogIndexPage(t *testing.T) {
 
 	index := filepath.Join(output, "index.html")
 	if _, err := os.Stat(index); os.IsNotExist(err) {
-		t.Fatalf("Blog index file should be created at %s, but not", index)
+		t.Fatalf("Blog index file should be created at %s", index)
 	}
 
 	bytes, _ := ioutil.ReadFile(index)
 	content := string(bytes)
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
-		t.Errorf("Blog index file should be generated with base template, but not")
+		t.Errorf("Blog index file should be generated with base template")
 	}
 	if !strings.Contains(content, "<a href=\"#\">Test Post</a>") {
-		t.Errorf("Blog index file should have posts data available, but not")
+		t.Errorf("Blog index file should have posts data available")
 	}
 	if !strings.Contains(content, "GithubAccessToken") {
-		t.Errorf("Blog index file should have configuration data available, but not")
+		t.Errorf("Blog index file should have configuration data available")
 	}
 }
 
