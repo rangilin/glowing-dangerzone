@@ -11,10 +11,13 @@ import (
 func TestBuildWillCreateBlogFolder(t *testing.T) {
 	t.Parallel()
 
-	dir := createTmpFolder(t)
+	dir := testDataPath("build", "test_generate_files")
 	output := filepath.Join(createTmpFolder(t), BuildDirName)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if _, err := os.Stat(output); os.IsNotExist(err) {
 		t.Fatalf("Blog folder should be created at %s, but not.", output)
@@ -24,14 +27,17 @@ func TestBuildWillCreateBlogFolder(t *testing.T) {
 func TestCleanUpBeforeBuild(t *testing.T) {
 	t.Parallel()
 
-	dir := createTmpFolder(t)
-	output := filepath.Join(dir, "blog")
+	dir := testDataPath("build", "test_generate_files")
+	output := filepath.Join(createTmpFolder(t), BuildDirName)
 
 	deleteme := filepath.Join(output, "delete_me")
 	os.Mkdir(output, os.ModePerm)
 	os.Create(deleteme)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), dir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if _, err := os.Stat(deleteme); !os.IsNotExist(err) {
 		t.Fatalf("Should delete exist blog folder before build")
@@ -44,7 +50,10 @@ func TestBuildGeneratingNecessaryFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_files")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	postDir := filepath.Join(output, "test-post")
 	if _, err := os.Stat(postDir); os.IsNotExist(err) {
@@ -63,7 +72,10 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
 	content := string(bytes)
@@ -83,7 +95,10 @@ func TestBuildShouldCopyPostFiles(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	path := filepath.Join(output, "test-post", "test.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -97,7 +112,10 @@ func TestBuildShouldCopyPostFilesRecursively(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	path := filepath.Join(output, "test-post", "test", "test.txt")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -111,7 +129,10 @@ func TestBuildShouldNotCopyPostMarkdownFile(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_posts")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	path := filepath.Join(output, "test-post", "post.md")
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
@@ -125,7 +146,10 @@ func TestBuildBlogIndexPage(t *testing.T) {
 	testDataDir := testDataPath("build", "test_generate_index")
 	output := createTmpFolder(t)
 
-	NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	err := NewBlogBuilder(newTestPostParser(), getConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	bytes, _ := ioutil.ReadFile(filepath.Join(output, "index.html"))
 	content := string(bytes)
