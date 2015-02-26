@@ -44,7 +44,7 @@ func TestCleanUpBeforeBuild(t *testing.T) {
 	}
 }
 
-func TestBuildGeneratePostFiles(t *testing.T) {
+func TestBuildPost(t *testing.T) {
 	t.Parallel()
 
 	testDataDir := testDataPath("build", "test_generate_posts")
@@ -55,15 +55,22 @@ func TestBuildGeneratePostFiles(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	bytes, _ := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
-	content := string(bytes)
+	bytes, err := ioutil.ReadFile(filepath.Join(output, "test-post", "index.html"))
+	if err != nil {
+		t.Fatal(err)
+	}
 
+	content := string(bytes)
 	if !strings.Contains(content, `<meta http-equiv="X-UA-Compatible" content="IE=edge">`) {
-		t.Fatalf("No base template in post file")
+		t.Errorf("Post index file should be generated with base template")
 	}
 
 	if !strings.Contains(content, "This is test post content") {
-		t.Fatalf("No post in post file")
+		t.Errorf("Post data should be available in post index file")
+	}
+
+	if !strings.Contains(content, "GithubAccessToken") {
+		t.Errorf("Configuration data should be available in post index file")
 	}
 }
 
