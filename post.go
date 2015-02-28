@@ -46,10 +46,11 @@ title: %s
 // PostParser parse file into Post
 type PostParser struct {
 	converter MarkdownConverter
+	conf      Configuration
 }
 
 func NewPostParser(conf Configuration) PostParser {
-	return PostParser{NewGithubMarkdownConverter(conf)}
+	return PostParser{NewGithubMarkdownConverter(conf), conf}
 }
 
 // Parse will parse Post from specified post folder
@@ -59,6 +60,7 @@ func (pp PostParser) Parse(dir string) Post {
 	post.key = filepath.Base(dir)
 	post.variables, post.content = pp.parsePostFile(dir)
 	post.htmlContent, _ = pp.converter.Convert(post.content)
+	post.url = pp.conf.BaseUrl + filepath.Base(dir) + "/"
 	return *post
 }
 
@@ -117,6 +119,8 @@ type Post struct {
 	variables map[string]string
 	// path of original post folder
 	dir string
+	// url of the post
+	url string
 	// content in Markdown
 	content string
 	// content in HTML converted from Markdown
@@ -153,6 +157,10 @@ func (p Post) Key() string {
 
 func (p Post) Dir() string {
 	return p.dir
+}
+
+func (p Post) Url() string {
+	return p.url
 }
 
 // Posts represented an array of Post

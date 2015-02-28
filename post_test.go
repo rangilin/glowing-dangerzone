@@ -64,32 +64,37 @@ func TestParsePost(t *testing.T) {
 
 	title := "This is a test"
 	if post.Title() != title {
-		t.Fatalf("Expect post title [%s], but got [%s]", title, post.Title())
+		t.Errorf("Expect post title [%s], but got [%s]", title, post.Title())
 	}
 
 	date := "2015-01-08"
 	if post.Date() != date {
-		t.Fatalf("Expect post date [%s], but got [%s]", date, post.Date())
+		t.Errorf("Expect post date [%s], but got [%s]", date, post.Date())
 	}
 
 	if post.Dir() != testPostDir {
-		t.Fatalf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Dir())
+		t.Errorf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Dir())
 	}
 
 	content := "content\n"
 	if post.Content() != content {
-		t.Fatalf("Expect post content [%s]. but got [%s]", content, post.Content())
+		t.Errorf("Expect post content [%s]. but got [%s]", content, post.Content())
 	}
 
 	htmlContent := template.HTML("<html>content\n</html>")
 	if post.HTMLContent() != htmlContent {
-		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent,
+		t.Errorf("Expect post html content [%s], but got [%s]", htmlContent,
 			post.HTMLContent())
 	}
 
 	key := "test-post-parser"
 	if post.Key() != key {
-		t.Fatalf("Expect post key [%s], but got [%s]", key, post.Key())
+		t.Errorf("Expect post key [%s], but got [%s]", key, post.Key())
+	}
+
+	url := "http://localhost/test-post-parser/"
+	if post.Url() != url {
+		t.Errorf("Expect post url [%s], but got [%s]", url, post.Url())
 	}
 
 }
@@ -97,6 +102,7 @@ func TestParsePost(t *testing.T) {
 func newTestPostParser() PostParser {
 	return PostParser{
 		new(TestMarkdownConverter),
+		fakeConfiguration(),
 	}
 }
 

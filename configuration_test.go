@@ -24,6 +24,6 @@ func TestConfigurationIsReadFromEnvironment(t *testing.T) {
 func fakeConfiguration() Configuration {
 	return Configuration{
 		GithubAccessToken: "GithubAccessToken",
-		BaseUrl:           "BaseUrl",
+		BaseUrl:           "http://localhost/",
 	}
 }
