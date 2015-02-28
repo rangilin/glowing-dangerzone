@@ -44,7 +44,7 @@ It will create a folder `blog` and put all generated files under it.
 
 ### Serve your blog files ###
 
-    glowing-dangerzone serve -port=80
+    glowing-dangerzone serve -port=8080
 
 Then it will run a file server on `blog` folder.
 
@@ -53,3 +53,4 @@ Then it will run a file server on `blog` folder.
 All configuration values should be stored as system environment variables, there are:
 
 **GD_GITHUB_ACCESS_TOKEN** : Required. Access token of github, it will be used when convert markdown to HTML
+**GD_BASE_URL** : Required. URL of the blog, should ended with a slash (ex: http://localhost/)
