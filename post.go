@@ -55,7 +55,7 @@ func NewPostParser(conf Configuration) PostParser {
 // Parse will parse Post from specified post folder
 func (pp PostParser) Parse(dir string) Post {
 	post := NewPost()
-	post.folder = dir
+	post.dir = dir
 	post.key = filepath.Base(dir)
 	post.variables, post.content = pp.parsePostFile(dir)
 	post.htmlContent, _ = pp.converter.Convert(post.content)
@@ -116,7 +116,7 @@ type Post struct {
 	// variables in post file
 	variables map[string]string
 	// path of original post folder
-	folder string
+	dir string
 	// content in Markdown
 	content string
 	// content in HTML converted from Markdown
@@ -151,8 +151,8 @@ func (p Post) Key() string {
 	return p.key
 }
 
-func (p Post) Folder() string {
-	return p.folder
+func (p Post) Dir() string {
+	return p.dir
 }
 
 // Posts represented an array of Post

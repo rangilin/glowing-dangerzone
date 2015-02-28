@@ -72,8 +72,8 @@ func TestParsePost(t *testing.T) {
 		t.Fatalf("Expect post date [%s], but got [%s]", date, post.Date())
 	}
 
-	if post.Folder() != testPostDir {
-		t.Fatalf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Folder())
+	if post.Dir() != testPostDir {
+		t.Fatalf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Dir())
 	}
 
 	content := "content\n"

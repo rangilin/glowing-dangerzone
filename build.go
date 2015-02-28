@@ -114,7 +114,7 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 		return err
 	}
 
-	if err := b.copyPostFiles(post.Folder(), output); err != nil {
+	if err := b.copyPostFiles(post.Dir(), output); err != nil {
 		return err
 	}
 
