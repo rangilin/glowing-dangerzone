@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"html/template"
 	"os"
 	"path/filepath"
 	"strings"
@@ -142,8 +143,8 @@ func (p Post) Content() string {
 	return p.content
 }
 
-func (p Post) HtmlContent() string {
-	return p.htmlContent
+func (p Post) HTMLContent() template.HTML {
+	return template.HTML(p.htmlContent)
 }
 
 func (p Post) Key() string {

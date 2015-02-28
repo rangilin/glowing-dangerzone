@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -80,10 +81,10 @@ func TestParsePost(t *testing.T) {
 		t.Fatalf("Expect post content [%s]. but got [%s]", content, post.Content())
 	}
 
-	htmlContent := "<html>content\n</html>"
-	if post.HtmlContent() != htmlContent {
+	htmlContent := template.HTML("<html>content\n</html>")
+	if post.HTMLContent() != htmlContent {
 		t.Fatalf("Expect post html content [%s], but got [%s]", htmlContent,
-			post.HtmlContent())
+			post.HTMLContent())
 	}
 
 	key := "test-post-parser"
