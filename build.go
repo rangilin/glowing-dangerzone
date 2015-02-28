@@ -125,10 +125,8 @@ func (b BlogBuilder) generatePost(post Post, output string) error {
 	}
 
 	data := map[string]interface{}{
-		"Conf":    b.conf,
-		"Content": template.HTML(post.HtmlContent()),
-		"Title":   post.Title(),
-		"Date":    post.Date(),
+		"Conf": b.conf,
+		"Post": post,
 	}
 
 	if err := b.templates["post"].Execute(file, data); err != nil {
@@ -146,8 +144,8 @@ func (b BlogBuilder) generateBlogIndex(posts []Post, output string) error {
 	}
 
 	data := map[string]interface{}{
-		"Posts": posts,
 		"Conf":  b.conf,
+		"Posts": posts,
 	}
 
 	if err := b.templates["index"].Execute(file, data); err != nil {
