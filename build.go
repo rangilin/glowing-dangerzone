@@ -32,6 +32,10 @@ type BlogBuilder struct {
 // Build the blog, it will parse and copy post files into specified output
 // directory
 func (b BlogBuilder) Build(output string) error {
+	if err := b.checkBlogDir(); err != nil {
+		return err
+	}
+
 	os.RemoveAll(output)
 	os.Mkdir(output, os.ModePerm)
 
@@ -66,6 +70,27 @@ func (b BlogBuilder) Build(output string) error {
 		return fmt.Errorf("Fail to copy asset files due to %v ", err)
 	}
 	return nil
+}
+
+func (b BlogBuilder) checkBlogDir() error {
+	assets, layouts, posts := false, false, false
+	walkFn := func(path string, info os.FileInfo, err error) error {
+		if info.IsDir() && filepath.Base(path) == AssetsDirName {
+			assets = true
+		}
+		if info.IsDir() && filepath.Base(path) == LayoutsDirName {
+			layouts = true
+		}
+		if info.IsDir() && filepath.Base(path) == PostsDirName {
+			posts = true
+		}
+		return nil
+	}
+	filepath.Walk(b.blogDir, walkFn)
+	if assets && layouts && posts {
+		return nil
+	}
+	return fmt.Errorf("%s is not a valid blog file directory", b.blogDir)
 }
 
 // getPostPaths will return a list of post directories in the blog folder

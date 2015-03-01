@@ -8,6 +8,18 @@ import (
 	"testing"
 )
 
+func TestCheckCurrentDirBeforeBuild(t *testing.T) {
+	t.Parallel()
+
+	badBlogFileDir := createTmpFolder(t)
+	outputDir := filepath.Join(badBlogFileDir, BuildDirName)
+
+	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), badBlogFileDir).Build(outputDir)
+	if err == nil || !strings.Contains(err.Error(), "is not a valid blog file directory") {
+		t.Errorf("Build should stopped if current dir is not a valid blog file dir")
+	}
+}
+
 func TestCreateBlogFolder(t *testing.T) {
 	t.Parallel()
 
