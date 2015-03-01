@@ -163,8 +163,8 @@ func (p Post) Url() string {
 	return p.url
 }
 
-func (p Post) Variables() map[string]string {
-	return p.variables
+func (p Post) Variable(key string) string {
+	return p.variables[key]
 }
 
 // Posts represented an array of Post
