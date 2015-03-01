@@ -163,6 +163,10 @@ func (p Post) Url() string {
 	return p.url
 }
 
+func (p Post) Variables() map[string]string {
+	return p.variables
+}
+
 // Posts represented an array of Post
 type Posts []Post
 
