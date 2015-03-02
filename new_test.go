@@ -34,17 +34,18 @@ func TestNew(t *testing.T) {
 		[2]string{"base.tmpl", BaseTemplateContent},
 		[2]string{"post.tmpl", PostTemplateContent},
 		[2]string{"index.tmpl", IndexTemplateContent},
+		[2]string{"feeds.xml", FeedsXMLContent},
 	}
 	for _, template := range templates {
 		path := filepath.Join(layouts, template[0])
 
 		if _, err := os.Stat(path); os.IsNotExist(err) {
-			t.Fatalf("Template file %s should be created at %s, but not", path, template[0])
+			t.Fatalf("File %s should be created at %s, but not", path, template[0])
 		}
 
 		content, _ := ioutil.ReadFile(path)
 		if !strings.Contains(string(content), template[1]) {
-			t.Fatalf("Template %s should contains \n%s\n, but not, content is \n%s\n",
+			t.Fatalf("File %s should contains \n%s\n, but not, content is \n%s\n",
 				template[0], template[1], string(content))
 		}
 	}

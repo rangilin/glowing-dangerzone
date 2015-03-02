@@ -30,3 +30,11 @@ const PostTemplateContent = `{{ define "content"}}
 <div>{{.Content}}</div>
 {{ end }}
 `
+
+// FeedsXMLContent is XML for RSS feeds
+const FeedsXMLContent = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+</channel>
+</rss>
+`

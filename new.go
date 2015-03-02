@@ -37,22 +37,24 @@ func (bc BlogCreator) Create() error {
 		return fmt.Errorf("Unable to create folder %s", assets)
 	}
 
-	baseTemplate, err := os.Create(filepath.Join(layouts, "base.tmpl"))
-	if err != nil {
-		return fmt.Errorf("Unable to create base.tmpl due to %v", err)
+	templates := [...][2]string{
+		[2]string{"base.tmpl", BaseTemplateContent},
+		[2]string{"post.tmpl", PostTemplateContent},
+		[2]string{"index.tmpl", IndexTemplateContent},
+		[2]string{"feeds.xml", FeedsXMLContent},
 	}
-	baseTemplate.WriteString(BaseTemplateContent)
 
-	postTemplate, err := os.Create(filepath.Join(layouts, "post.tmpl"))
-	if err != nil {
-		return fmt.Errorf("Unable to create post.tmpl due to %v", err)
+	for _, template := range templates {
+		name := template[0]
+		content := template[1]
+		t, err := os.Create(filepath.Join(layouts, name))
+		if err != nil {
+			return fmt.Errorf("Unable to create %s due to %v", name, err)
+		}
+		_, err = t.WriteString(content)
+		if err != nil {
+			return err
+		}
 	}
-	postTemplate.WriteString(PostTemplateContent)
-
-	indexTemplate, err := os.Create(filepath.Join(layouts, "index.tmpl"))
-	if err != nil {
-		return fmt.Errorf("Unable to create index.tmpl due to %v", err)
-	}
-	indexTemplate.WriteString(IndexTemplateContent)
 	return nil
 }
