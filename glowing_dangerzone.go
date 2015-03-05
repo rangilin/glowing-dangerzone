@@ -30,6 +30,8 @@ const (
 	IndexTemplateName = "index.tmpl"
 	// name of post template file
 	PostTemplateName = "post.tmpl"
+	// name of RSS XML file
+	RSSTemplateName = "feeds.xml"
 )
 
 func main() {

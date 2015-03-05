@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"os"
 	"path/filepath"
 	"sort"
+	"text/template"
 )
 
 // NewBlogBuilder create a BlogBuilder instance that will build blog from
@@ -66,6 +66,10 @@ func (b BlogBuilder) Build(output string) error {
 		return fmt.Errorf("Fail to generate blog index due to %v", err)
 	}
 
+	if err := b.generateRSS(posts, output); err != nil {
+		return fmt.Errorf("Fail to generate RSS due to %v", err)
+	}
+
 	if err := b.copyAssets(output); err != nil {
 		return fmt.Errorf("Fail to copy asset files due to %v ", err)
 	}
@@ -115,20 +119,32 @@ func (b BlogBuilder) getPostPaths() ([]string, error) {
 
 // compileTemplates compile all templates for later use
 func (b BlogBuilder) compileTemplates() error {
-	templates := map[string]string{
-		"index": IndexTemplateName,
-		"post":  PostTemplateName,
+	templates := [][]interface{}{
+		[]interface{}{"index", IndexTemplateName, true},
+		[]interface{}{"post", PostTemplateName, true},
+		[]interface{}{"rss", RSSTemplateName, false},
 	}
 
-	baseTemplatePath := filepath.Join(b.blogDir, LayoutsDirName, BaseTemplateName)
-	for name, filename := range templates {
+	baseHTMLTemplate := filepath.Join(b.blogDir, LayoutsDirName, BaseTemplateName)
+	for _, t := range templates {
+		name := t[0].(string)
+		filename := t[1].(string)
+		isHTML := t[2].(bool)
 		templatePath := filepath.Join(b.blogDir, LayoutsDirName, filename)
-		template, err := template.ParseFiles(baseTemplatePath, templatePath)
+
+		var template *template.Template
+		var err error
+		if isHTML {
+			template, err = template.ParseFiles(baseHTMLTemplate, templatePath)
+		} else {
+			template, err = template.ParseFiles(templatePath)
+		}
 		if err != nil {
 			return fmt.Errorf("Fail to parse template %s due to %v", filename, err)
 		}
 		b.templates[name] = template
 	}
+
 	return nil
 }
 
@@ -202,6 +218,24 @@ func (b BlogBuilder) copyPostFiles(postDir string, output string) error {
 	}
 
 	return filepath.Walk(postDir, walkFn)
+}
+
+func (b BlogBuilder) generateRSS(posts []Post, output string) error {
+	feeds := filepath.Join(output, RSSTemplateName)
+	file, err := os.Create(feeds)
+	if err != nil {
+		return fmt.Errorf("Unable to create RSS XML %s", feeds)
+	}
+
+	data := map[string]interface{}{
+		"Conf":  b.conf,
+		"Posts": posts,
+	}
+
+	if err := b.templates["rss"].Execute(file, data); err != nil {
+		return err
+	}
+	return nil
 }
 
 // copyAssets copy all files in assets to specified output directory

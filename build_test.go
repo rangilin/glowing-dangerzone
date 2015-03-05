@@ -188,3 +188,46 @@ func TestGeneratedPostsWillBeSortedByDateInBlogIndex(t *testing.T) {
 		t.Fatalf("Posts in blog index page should be sorted by date in descending")
 	}
 }
+
+func TestGenerateRSSXML(t *testing.T) {
+	t.Parallel()
+
+	testDataDir := testDataPath("build", "test_generate_rss")
+	output := createTmpFolder(t)
+
+	err := NewBlogBuilder(newTestPostParser(), fakeConfiguration(), testDataDir).Build(output)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	feeds := filepath.Join(output, RSSTemplateName)
+	if _, err := os.Stat(feeds); os.IsNotExist(err) {
+		t.Fatalf("RSS XML should be created at %s", feeds)
+	}
+
+	byte, _ := ioutil.ReadFile(feeds)
+	content := string(byte)
+
+	expect := `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rangi Lin's Blog</title>
+    <description></description>
+    <link>http://localhost/</link>
+
+    <item>
+      <title>Test RSS</title>
+      <description></description>
+      <pubDate>Tue, 03 Mar 2015 00:00:00 UTC</pubDate>
+      <link>http://localhost/test-post/</link>
+      <guid isPermaLink="true">http://localhost/test-post/</guid>
+    </item>
+
+  </channel>
+</rss>
+`
+	if content != expect {
+		t.Fatalf("RSS file does not generated properly, expect \n%s, but got \n%s", expect, content)
+	}
+
+}
