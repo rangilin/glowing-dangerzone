@@ -135,6 +135,10 @@ func (p Post) Date() string {
 	return p.variables["date"]
 }
 
+func (p Post) RSSDate() string {
+	return p.Time().Format(time.RFC1123)
+}
+
 func (p Post) Time() time.Time {
 	t, err := time.Parse("2006-01-02", p.Date())
 	if err != nil {

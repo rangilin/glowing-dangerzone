@@ -72,6 +72,11 @@ func TestParsePost(t *testing.T) {
 		t.Errorf("Expect post date [%s], but got [%s]", date, post.Date())
 	}
 
+	rssDate := "Thu, 08 Jan 2015 00:00:00 UTC"
+	if post.RSSDate() != rssDate {
+		t.Errorf("Expect post rss date [%s], but got [%s]", rssDate, post.RSSDate())
+	}
+
 	if post.Dir() != testPostDir {
 		t.Errorf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Dir())
 	}
