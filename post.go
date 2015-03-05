@@ -151,6 +151,13 @@ func (p Post) Content() string {
 	return p.content
 }
 
+func (p Post) Excerpt() string {
+	if len(p.content) <= 200 {
+		return p.content
+	}
+	return p.content[0:200] + "[...]"
+}
+
 func (p Post) HTMLContent() template.HTML {
 	return template.HTML(p.htmlContent)
 }

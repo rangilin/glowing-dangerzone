@@ -81,12 +81,12 @@ func TestParsePost(t *testing.T) {
 		t.Errorf("Expect post folder to be [%s], but got [%s]", testPostDir, post.Dir())
 	}
 
-	content := "content\n"
+	content := "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. Sed semper augue eu massa ultricies bibendum. Nunc eleifend, dolor aliquam auctor placerat, enim ante convallis tortor, non laoreet mi enim eget ex. Proin semper augue non lorem luctus blandit. Suspendisse potenti.\n"
 	if post.Content() != content {
 		t.Errorf("Expect post content [%s]. but got [%s]", content, post.Content())
 	}
 
-	htmlContent := template.HTML("<html>content\n</html>")
+	htmlContent := template.HTML("<html>" + content + "</html>")
 	if post.HTMLContent() != htmlContent {
 		t.Errorf("Expect post html content [%s], but got [%s]", htmlContent,
 			post.HTMLContent())
@@ -102,6 +102,20 @@ func TestParsePost(t *testing.T) {
 		t.Errorf("Expect post url [%s], but got [%s]", url, post.Url())
 	}
 
+}
+
+func TestPostExcerpt(t *testing.T) {
+	excerpt := "content\n"
+	post := newTestPostParser().Parse("testdata/post_test/short-content-post/")
+	if post.Excerpt() != excerpt {
+		t.Errorf("Expect post excerpt [%s], but got [%s]", excerpt, post.Excerpt())
+	}
+
+	post = newTestPostParser().Parse("testdata/post_test/long-content-post/")
+	excerpt = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. S[...]`
+	if post.Excerpt() != excerpt {
+		t.Errorf("Expect post excerpt [%s], but got [%s]", excerpt, post.Excerpt())
+	}
 }
 
 func newTestPostParser() PostParser {
