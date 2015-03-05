@@ -41,7 +41,7 @@ const FeedsXMLContent = `<?xml version="1.0" encoding="UTF-8"?>
     {{ range .Posts }}
     <item>
       <title>{{ .Title }}</title>
-      <description></description>
+      <description>{{ .Excerpt }}</description>
       <pubDate>{{ .RSSDate }}</pubDate>
       <link>{{ .Url }}</link>
       <guid isPermaLink="true">{{ .Url }}</guid>

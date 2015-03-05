@@ -2,4 +2,4 @@
 date: 2015-03-03
 title: Test RSS
 ---
-This is a test post for rss
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. Sed semper augue eu massa ultricies bibendum. Nunc eleifend, dolor aliquam auctor placerat, enim ante convallis tortor, non laoreet mi enim eget ex. Proin semper augue non lorem luctus blandit. Suspendisse potenti.
