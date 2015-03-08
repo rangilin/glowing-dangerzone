@@ -7,6 +7,7 @@ const BaseTemplateContent = `<html>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
+    <link rel="alternate" type="application/rss+xml" title="" href="{{ .Conf.BaseUrl }}/feeds.xml">
   </head>
   <body>
     <div>{{ template "content" . }}</div>
