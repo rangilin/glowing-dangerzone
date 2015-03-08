@@ -39,3 +39,53 @@ func TestPrettify(t *testing.T) {
 		t.Fatalf("Prettify should convert to lower case, but got %s", result)
 	}
 }
+
+func TestUTF8Slice(t *testing.T) {
+	t.Parallel()
+
+	var str string = "Hello世界"
+	var result string
+	var err error
+	var expect string
+	var expectErrorMsg string
+
+	expect = ""
+	result, err = UTF8Slice(str, 0, 0)
+	if result != expect || err != nil {
+		t.Errorf(`UTF8Slice should return empty string when slice length is 0,
+expect [%v][%v], but got [%v][%v]`, expect, nil, result, err)
+	}
+
+	expect = "世界"
+	result, err = UTF8Slice(str, 5, 20)
+	if result != expect || err != nil {
+		t.Errorf(`UTF8Slice should return slice even if request length exceed,
+expect [%v][%v], but got [%v][%v]`, expect, nil, result, err)
+	}
+
+	result, err = UTF8Slice(str, -1, 2)
+	expectErrorMsg = "Start index out of bound"
+	if result != "" || err == nil || err.Error() != expectErrorMsg {
+		t.Errorf(`UTF8Slice should return error if start index smaller than zero`)
+	}
+
+	result, err = UTF8Slice(str, 10, 2)
+	expectErrorMsg = "Start index out of bound"
+	if result != "" || err == nil || err.Error() != expectErrorMsg {
+		t.Errorf(`UTF8Slice should return error if start index exceed string`)
+	}
+
+	result, err = UTF8Slice(str, 0, -1)
+	expectErrorMsg = "Length invalid"
+	if result != "" || err == nil || err.Error() != expectErrorMsg {
+		t.Errorf(`UTF8Slice should return error if length < 0`)
+	}
+
+	result, err = UTF8Slice(str, 4, 2)
+	expect = "o世"
+	if result != expect || err != nil {
+		t.Errorf(`UTF8Slice should slice string by rune, expect [%v][%v],
+but got [%v][%v]`,
+			expect, nil, result, err)
+	}
+}
