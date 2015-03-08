@@ -1,5 +1,5 @@
 ---
 date: 2015-03-05
-title: This is a post with longer content
+title: This is a post with utf8 content
 ---
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. Sed semper augue eu massa ultricies bibendum. Nunc eleifend, dolor aliquam auctor placerat, enim ante convallis tortor, non laoreet mi enim eget ex. Proin semper augue non lorem luctus blandit. Suspendisse potenti.
+一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890

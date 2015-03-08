@@ -152,10 +152,8 @@ func (p Post) Content() string {
 }
 
 func (p Post) Excerpt() string {
-	if len(p.content) <= 200 {
-		return p.content
-	}
-	return p.content[0:200] + "[...]"
+	str, _ := UTF8Slice(p.content, 0, 200)
+	return str + "[...]"
 }
 
 func (p Post) HTMLContent() template.HTML {

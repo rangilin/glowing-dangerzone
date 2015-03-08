@@ -105,14 +105,8 @@ func TestParsePost(t *testing.T) {
 }
 
 func TestPostExcerpt(t *testing.T) {
-	excerpt := "content\n"
-	post := newTestPostParser().Parse("testdata/post_test/short-content-post/")
-	if post.Excerpt() != excerpt {
-		t.Errorf("Expect post excerpt [%s], but got [%s]", excerpt, post.Excerpt())
-	}
-
-	post = newTestPostParser().Parse("testdata/post_test/long-content-post/")
-	excerpt = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. S[...]`
+	post := newTestPostParser().Parse("testdata/post_test/long-content-post/")
+	excerpt := `一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十[...]`
 	if post.Excerpt() != excerpt {
 		t.Errorf("Expect post excerpt [%s], but got [%s]", excerpt, post.Excerpt())
 	}
