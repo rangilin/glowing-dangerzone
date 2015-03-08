@@ -112,6 +112,14 @@ func TestPostExcerpt(t *testing.T) {
 		t.Errorf(`Post excerpt should be content of first paragraph,
 expect [%s], but got [%s]`, expect, post.Excerpt())
 	}
+
+	html = "<h1>title</h1><p>1st<a>link</a></a></p>"
+	post = Post{"", map[string]string{}, "", "", "", html}
+	expect = "1st&lt;a&gt;link&lt;/a&gt;&lt;/a&gt; ..."
+	if post.Excerpt() != expect {
+		t.Errorf(`Post excerpt should be XML escaped,
+expect [%s], but got [%s]`, expect, post.Excerpt())
+	}
 }
 
 func newTestPostParser() PostParser {

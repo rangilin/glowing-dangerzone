@@ -2,6 +2,8 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/xml"
 	"fmt"
 	"html/template"
 	"os"
@@ -156,7 +158,9 @@ func (p Post) Excerpt() string {
 	r := regexp.MustCompile("<p>(.+?)</p>")
 	result := r.FindStringSubmatch(p.htmlContent)
 	if len(result) > 1 {
-		return result[1] + " ..."
+		buf := new(bytes.Buffer)
+		xml.EscapeText(buf, []byte(result[1]))
+		return buf.String() + " ..."
 	}
 	return ""
 }
