@@ -217,7 +217,7 @@ func TestGenerateRSSXML(t *testing.T) {
 
     <item>
       <title>Test RSS</title>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacinia tempor purus, vitae aliquam elit. Morbi efficitur ut ante vehicula vestibulum. Curabitur pellentesque quam non pulvinar dictum. S[...]</description>
+      <description></description>
       <pubDate>Tue, 03 Mar 2015 00:00:00 UTC</pubDate>
       <link>http://localhost/test-post/</link>
       <guid isPermaLink="true">http://localhost/test-post/</guid>

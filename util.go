@@ -1,14 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
-	"unicode/utf8"
 )
 
 // Date Format for ISO 8601
@@ -61,38 +59,4 @@ func CopyFile(source string, destination string) error {
 		return err
 	}
 	return nil
-}
-
-// UTF8Slice just like ordinary sub string function, but count string by
-// rune instead of byte.
-func UTF8Slice(str string, startIdx int, length int) (string, error) {
-
-	if startIdx < 0 {
-		return "", fmt.Errorf("Start index out of bound")
-	}
-	if length < 0 {
-		return "", fmt.Errorf("Length invalid")
-	}
-
-	idx := 0
-	slicelen := 0
-	var b bytes.Buffer
-	for len(str) > 0 && length > 0 {
-		r, size := utf8.DecodeRuneInString(str)
-		if idx >= startIdx {
-			slicelen++
-			b.WriteRune(r)
-		}
-
-		str = str[size:]
-		if idx < startIdx && len(str) == 0 {
-			return "", fmt.Errorf("Start index out of bound")
-		}
-
-		if slicelen >= length || len(str) == 0 {
-			return b.String(), nil
-		}
-		idx++
-	}
-	return "", nil
 }

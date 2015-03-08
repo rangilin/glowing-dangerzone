@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -152,8 +153,12 @@ func (p Post) Content() string {
 }
 
 func (p Post) Excerpt() string {
-	str, _ := UTF8Slice(p.content, 0, 200)
-	return str + "[...]"
+	r := regexp.MustCompile("<p>(.+?)</p>")
+	result := r.FindStringSubmatch(p.htmlContent)
+	if len(result) > 1 {
+		return result[1] + " ..."
+	}
+	return ""
 }
 
 func (p Post) HTMLContent() template.HTML {
