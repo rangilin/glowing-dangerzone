@@ -12,7 +12,7 @@ To create a new blog :
     cd /path/to/my/blog/
     glowing-dangerzone new
 
-This will generate two folders :
+This will generate following folders :
 
     layouts : place for HTML layout files
     posts : place for your posts
